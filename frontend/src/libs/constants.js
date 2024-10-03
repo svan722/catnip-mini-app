@@ -10,7 +10,8 @@ export const LINK = {
     X: 'https://x.com/TONONION_ONON?t=WKRiaAMa4ZPsfzPpj-g_sg&s=09',
     YOUTUBE: 'https://youtube.com/@Cointswap',
     WEBSITE: 'https://coint.xyz/',
-    TWEET: 'https://x.com/TONONION_ONON/status/1840404476878037043?t=xsTWy9nkhQuXk95VrHCAHQ&s=19'
+    TWEET: 'https://x.com/TONONION_ONON/status/1840404476878037043?t=xsTWy9nkhQuXk95VrHCAHQ&s=19',
+    MANIFEST: 'https://supercoolx.github.io/manifests/tonconnect-manifest.json',
 }
 
 export const ROLE = {

@@ -5,6 +5,8 @@ import { useEffect, useMemo } from 'react';
 import { App } from '@/components/App.jsx';
 import { ErrorBoundary } from '@/components/ErrorBoundary.jsx';
 
+import { LINK } from '@/libs/constants';
+
 /**
  * @param {unknown} error
  * @returns {JSX.Element}
@@ -34,7 +36,6 @@ export function Inner() {
   // const manifestUrl = useMemo(() => {
   //   return new URL('tonconnect-manifest.json', window.location.href).toString();
   // }, []);
-  const manifestUrl = 'https://supercoolx.github.io/manifests/tonconnect-manifest.json';
 
   // Enable debug mode to see all the methods sent and events received.
   useEffect(() => {
@@ -44,7 +45,7 @@ export function Inner() {
   }, [debug]);
 
   return (
-    <TonConnectUIProvider manifestUrl={manifestUrl}>
+    <TonConnectUIProvider manifestUrl={LINK.MANIFEST}>
       <SDKProvider acceptCustomStyles debug={debug}>
         <App/>
       </SDKProvider>
