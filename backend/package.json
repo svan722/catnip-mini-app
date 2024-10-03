@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "prestart": "npm run prod",
     "start": "node index.js",
     "dev": "nodemon index.js",
     "bot": "node bot.js",
