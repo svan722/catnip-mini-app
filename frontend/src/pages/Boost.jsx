@@ -14,6 +14,7 @@ export default function Boost() {
 
     const [items, setItems] = useState();
     const [totalPrice, setTotalPrice] = useState(0);
+    const [totalUsers, setTotalUsers] = useState(0);
     const [purchasedItem, setPurchasedItem] = useState();
     const [endTime, setEndTime] = useState(0);
 
@@ -33,6 +34,7 @@ export default function Boost() {
                 if (res.data.success || res.data.status == 'noboost') {
                     const total = res.data.boosts?.reduce((total, boost) => total + boost.item.price, 0);
                     setTotalPrice(total);
+                    setTotalUsers(res.data.boosts?.length);
                 }
             }).catch(err => {
                 toast.error('Something went wrong.');
@@ -82,29 +84,30 @@ export default function Boost() {
     }
     
     return (
-        <div className="mx-[28px]">
-            <div className="pt-[40px] flex justify-between items-center">
-                <h1 className="text-[28px] leading-[42px] font-bold font-poppins text-primary">Boost your onion</h1>
+        <div className="px-[28px] bg-[url('/imgs/background.png'),linear-gradient(to_bottom,#E3F5FC,#90D6F3)] bg-cover bg-center pb-[20px]">
+            <div className="pt-[40px] flex flex-col items-center">
+                <img src="/imgs/token.png" className="w-[35px] h-[35px]" alt="" />
+                <h1 className="text-[32px] mt-[10px] leading-[40px] text-center font-caveat text-primary">Boost your Catnip Sprint</h1>
             </div>
-            <p className="font-poppins text-[10px] leading-[15px]">Make our tasks to get more coins </p>
-            <div className="flex justify-between items-end mt-[20px]">
-                <button onClick={handleConnectWallet} className="px-[10px] h-[31px] rounded-[9px] bg-primary text-white font-poppins text-[12px] font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_5px_5px_#333333]">{ wallet ? wallet.account.address?.slice(0, 5) + '...' + wallet.account.address?.slice(-5) : 'Connect Wallet' }</button>
-                <div className="text-[14px] leading-none">Total: <span className="text-[20px] font-bold text-primary">{ totalPrice.toLocaleString() }</span> TON</div>
+            <p className="font-poppins text-center text-black text-[10px] leading-[15px]">Make our tasks to get more coins </p>
+            <div className="flex justify-between items-center mt-[20px]">
+                <button onClick={handleConnectWallet} className="px-[10px] h-[45px] rounded-[5px] bg-primary text-white font-poppins text-[12px] font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_5px_5px_#333333]">{ wallet ? wallet.account.address?.slice(0, 5) + '...' + wallet.account.address?.slice(-5) : 'Connect Wallet' }</button>
+                <div className="text-[14px] text-black font-rubik font-medium leading-none">Total <span className="text-primary">{ totalPrice.toLocaleString() }</span> TON <span className="text-primary">{ totalUsers.toLocaleString() }</span> Users</div>
             </div>
             <div className="mt-[27px] divide-y-[1px]">
                 {
                     items ? items.map((item, key) =>
                         <div key={key} className="py-[14px] flex items-center justify-between">
                             <div className="flex items-center gap-[11px]">
-                                <div className="h-[43px] w-[43px] rounded-[9px] border border-white/10 bg-white/10 flex items-center justify-center">
-                                    <img src="/imgs/rocket.svg" width={22} height={25} alt="" />
+                                <div className="h-[43px] w-[43px] rounded-[2px] border border-[#81C3D71A] bg-[#39BDFF] flex items-center justify-center">
+                                    <img src="/imgs/rocket.svg" width={18} height={18} alt="" />
                                 </div>
                                 <div className="flex flex-col items-start justify-between font-medium font-inter">
-                                    <div className="text-[8px] leading-[9.68px] text-white/[0.57]">{ item.name }</div>
-                                    <div className="text-[12px] leading-[14.52px] mt-[2px]">{ item.title }</div>
+                                    <div className="text-[8px] leading-[9.68px] text-[#757D7F]">{ item.name }</div>
+                                    <div className="text-[12px] leading-[14.52px] mt-[2px] text-primary">{ item.title }</div>
                                     <div className="flex items-center mt-[4px]">
-                                        <div className="text-[8px] leading-[9.68px] text-primary -mt-px">Get boost</div>
-                                        <svg width="7" height="7" viewBox="0 0 3 5" fill="#FF5189" xmlns="http://www.w3.org/2000/svg">
+                                        <div className="text-[8px] leading-[9.68px] text-secondary -mt-px">Get boost</div>
+                                        <svg width="7" height="7" viewBox="0 0 3 5" fill="#505050" xmlns="http://www.w3.org/2000/svg">
                                             <path fillRule="evenodd" clipRule="evenodd" d="M2.88569 2.37654L1.00002 4.2622L0.528687 3.79087L2.17869 2.14087L0.528687 0.49087L1.00002 0.019537L2.88569 1.9052C2.94818 1.96771 2.98328 2.05248 2.98328 2.14087C2.98328 2.22926 2.94818 2.31403 2.88569 2.37654Z" />
                                         </svg>
                                     </div>
@@ -112,10 +115,10 @@ export default function Boost() {
                             </div>
                             {
                                 purchasedItem ? 
-                                <button disabled={true} onClick={() => handlePayment(item)} className="w-[85px] h-[31px] rounded-[9px] bg-white disabled:bg-primary disabled:hover:cursor-not-allowed disabled:text-white hover:bg-primary text-[#EA5384] hover:text-white font-poppins text-[10px] transition-colors duration-300">
+                                <button disabled={true} onClick={() => handlePayment(item)} className="w-[85px] h-[31px] rounded-[4px] bg-white disabled:bg-primary disabled:hover:cursor-not-allowed disabled:text-white hover:bg-primary text-[#EA5384] hover:text-white font-poppins text-[10px] transition-colors duration-300">
                                     { purchasedItem._id === item._id ? <Countdown date={endTime} intervalDelay={1000} precision={3} onComplete={() => setPurchasedItem(null)} renderer={(props) => <span>{props.days ? props.days.toString() + 'd' : ''} {props.hours.toString()} : {props.minutes.toString().padStart(2, '0')} : {props.seconds.toString().padStart(2, '0')}</span>} /> : '---' }
                                 </button> :
-                                <button onClick={() => handlePayment(item)} className="w-[85px] h-[31px] rounded-[9px] bg-white disabled:bg-primary disabled:hover:cursor-not-allowed disabled:text-white hover:bg-primary text-[#EA5384] hover:text-white font-poppins text-[10px] transition-colors duration-300">{ item.price } Ton</button>
+                                <button onClick={() => handlePayment(item)} className="w-[85px] h-[31px] rounded-[4px] bg-white disabled:bg-primary disabled:hover:cursor-not-allowed disabled:text-white hover:bg-primary text-[#EA5384] hover:text-white font-poppins text-[10px] transition-colors duration-300">{ item.price } Ton</button>
                             }
                         </div>
                     ) : Array(3).fill(0).map((_, key) => 
@@ -128,6 +131,12 @@ export default function Boost() {
                         </div>
                     )
                 }
+            </div>
+            <div className="relative">
+                <img className="absolute h-[95px] -bottom-[100px] -right-[30px]" src="/imgs/print.png" alt="" />
+            </div>
+            <div className="mt-[40px]">
+                <img className="h-[149px] -translate-x-[20px] translate-y-[16px]" src="/imgs/cute.png" alt="" />
             </div>
         </div>
     )

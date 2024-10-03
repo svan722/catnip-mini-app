@@ -3,7 +3,7 @@ import { Link } from '@/components/Link';
 import { useInitData } from '@telegram-apps/sdk-react';
 import API from '@/libs/api';
 
-export default function Onion() {
+export default function Catnip() {
     const { user } = useInitData();
     const [onion, setOnion] = useState(0);
     const [energy, setEnergy] = useState(0);
@@ -33,19 +33,20 @@ export default function Onion() {
         return () => clearInterval(id);
     }, [energy, maxEnergy]);
     return (
-        <div className="pt-[40px] pb-[40px]">
+        <div className="pt-[40px] pb-[40px] bg-[url('/imgs/background.png'),linear-gradient(to_bottom,#E3F5FC,#90D6F3)] bg-cover bg-center">
             <div className="flex justify-center">
-                <img src="/imgs/onion.png" width={339} height={316} alt="" />
+                <img src="/imgs/onion.png" width={276} height={343} alt="" />
             </div>
-            <div className="flex justify-center gap-[6px] mt-[29px]">
-                <Link to="/" className="flex gap-[3px] items-center justify-center bg-[#EA5384]/80 hover:bg-[#EA5384] hover:-translate-y-1 active:translate-y-0 transition-all duration-300 rounded-[5px] w-[129px] h-[45px]">
+            <div className="flex justify-center gap-[6px] mt-[29px] relative">
+                <Link to="/" className="flex gap-[3px] items-center justify-center bg-primary hover:-translate-y-1 active:translate-y-0 transition-all duration-300 rounded-[5px] w-[129px] h-[45px]">
                     <img src="/imgs/tap.svg" width={25} height={25} alt="" />
-                    <span className="font-poppins font-semibold text-[14px] text-[#EEF5F8]">Tap ONION</span>
+                    <span className="font-poppins font-semibold text-[14px] text-[#EEF5F8]">Tap Catnip</span>
                 </Link>
-                <Link to="/boost" className="flex gap-[6px] items-center justify-center bg-[#42C948]/80 hover:bg-[#42C948] hover:-translate-y-1 active:translate-y-0 transition-all duration-300 rounded-full w-[128px] h-[45px]">
+                <Link to="/boost" className="flex gap-[6px] items-center justify-center bg-gradient-to-br from-[#42C948] via-[#20BC2F] to-[#40CA30] hover:bg-[#42C948] hover:outline outline-1 outline-offset-2 outline-[#40CA30] hover:-translate-y-1 active:translate-y-0 transition-all duration-300 rounded-full w-[128px] h-[45px]">
                     <img src="/imgs/boost.svg" width={29} height={29} alt="" />
                     <span className="font-poppins font-semibold text-[14px] text-[#EEF5F8]">Boost</span>
                 </Link>
+                <img className="absolute h-[95px] top-[60px] -translate-y-1/2 right-0" src="/imgs/print.png" alt="" />
             </div>
             <div className="flex flex-col items-center mt-[32px]">
                 <div className="flex items-center gap-[8px]">

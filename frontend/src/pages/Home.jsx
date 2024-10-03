@@ -75,23 +75,24 @@ export default function Home() {
     }
     
     return (
-        <div className="flex flex-col items-center justify-center h-[calc(100vh-78px)]">
+        <div className="pt-[60px] bg-gradient-to-b from-[#E1F4FB] to-[#78CDF0] pb-[60px]">
             {
                 endTime ? <Countdown
                     date={endTime}
                     intervalDelay={1000}
                     precision={3}
                     onComplete={() => setEndTime(0)}
-                    renderer={(props) => <div className="absolute w-[220px] font-poppins font-bold text-[20px] top-[10px] right-[10px] text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-yellow-500 to-indigo-500 bg-[length:1000px_100px] animate-bg">Boost&nbsp;&nbsp;{props.days ? props.days.toString() + 'd' : ''} {props.hours.toString()} : {props.minutes.toString().padStart(2, '0')} : {props.seconds.toString().padStart(2, '0')}</div>}
+                    renderer={(props) => <div className="absolute w-[110px] whitespace-nowrap font-poppins font-bold text-[10px] top-[3px] right-[10px] text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-yellow-500 to-indigo-500 bg-[length:1000px_100px] animate-bg">Boost&nbsp;&nbsp;{props.days ? props.days.toString() + 'd' : ''} {props.hours.toString()} : {props.minutes.toString().padStart(2, '0')} : {props.seconds.toString().padStart(2, '0')}</div>}
                 /> : null
             }
-            <div className="relative">
-                <img onClick={handleTap} className={`w-[320px] h-[320px] transition-transform duration-300 active:scale-90 ${ energy < loseEnergyPerTap ? 'cursor-not-allowed' : 'cursor-pointer' }`} draggable="false" src="/imgs/logo.png" alt="" />
+            <h1 className="text-center font-mansalva text-[39px] leading-none text-black">Catnip Sprint</h1>
+            <div className="relative mt-[25px]">
+                <img onClick={handleTap} className={`h-[424px] transition-transform duration-300 active:scale-90 ${ energy < loseEnergyPerTap ? 'cursor-not-allowed' : 'cursor-pointer' }`} draggable="false" src="/imgs/logo.png" alt="" />
             </div>
-            <div className="flex flex-col items-center mt-[30px]">
+            <div className="flex flex-col items-center">
                 <div className="flex items-center gap-[8px]">
                     <img src="/imgs/token.png" width={21} height={23} alt="" />
-                    <span className="font-bold text-[28px] leading-[42px] font-poppins">{ onion }</span>
+                    <span className="font-bold text-[28px] leading-[42px] font-poppins">{ onion.toLocaleString() }</span>
                 </div>
                 <div className="flex items-center gap-[4px]">
                     <img src="/imgs/lightning.svg" width={14} height={14} alt="" />
@@ -101,7 +102,7 @@ export default function Home() {
             { plusOnes.map((plusOne) =>
                 <div key={plusOne.id} className="flex items-center gap-[8px] absolute animate-fadeup pointer-events-none" style={{ left: plusOne.x, top: plusOne.y }}>
                     <img src="/imgs/token.png" width={21} height={23} alt="" />
-                    <span className="font-bold text-[28px] leading-[42px] font-poppins">{`+${earnPerTap}`}</span>
+                    <span className="font-bold text-[28px] leading-[42px] font-poppins text-secondary">{`+${earnPerTap}`}</span>
                 </div>)
             }
         </div>

@@ -2,7 +2,7 @@ import Home from '@/pages/Home';
 import Earn from '@/pages/Earn';
 import Invite from '@/pages/Invite';
 import Leaderboard from '@/pages/Leaderboard';
-import Onion from '@/pages/Onion';
+import Catnip from '@/pages/Catnip';
 import Boost from '@/pages/Boost';
 
 /**
@@ -21,6 +21,6 @@ export const routes = [
   { path: '/earn', Component: Earn },
   { path: '/invite', Component: Invite },
   { path: '/leaderboard', Component: Leaderboard },
-  { path: '/onion', Component: Onion },
+  { path: '/catnip', Component: Catnip },
   { path: '/boost', Component: Boost },
 ];

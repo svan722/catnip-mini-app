@@ -9,7 +9,7 @@ export default function Leaderboard() {
     const [type, setType] = useState("week");
     const [selfRank, setSelfRank] = useState(-1);
     const [self, setSelf] = useState(null);
-    
+
     const [userCount, setUserCount] = useState(0);
     const [isCounting, setCounting] = useState(false);
 
@@ -30,91 +30,59 @@ export default function Leaderboard() {
                 setSelfRank(res.data.rank);
                 setSelf(res.data.self);
             }).catch(console.error);
-    },[type])
-    
+    }, [type])
+
     const handleClickType = (type) => (e) => {
         e.preventDefault();
         setType(type);
     }
 
     return (
-        <div className="flex flex-col mb-[30px]">
-            <div className="mx-[26px]">
-                <div className="flex justify-center -translate-x-[30px] translate-y-[42px]">
-                    <img width={35} height={28} src="/imgs/crown.svg" alt="crown" />
+        <div className="flex flex-col pb-[50px] bg-[url('/imgs/background.png'),linear-gradient(to_bottom,#A5DEF5,white)] bg-cover bg-center">
+            <div className="flex gap-[4px] mx-auto mt-[40px] p-[4px] relative">
+                <img className="absolute h-[95px] top-1/2 -translate-y-1/2 -left-[70px]" src="/imgs/print.png" alt="" />
+                <button onClick={handleClickType("week")} className={`w-[150px] h-[40px] z-10 rounded-[16px] p-[8px] border font-rubik font-medium text-[16px] transition-all duration-300 ${type === "week" ? 'border-transparent bg-primary text-white' : 'hover:border-transparent hover:text-white hover:bg-primary text-secondary border-secondary '}`}>Weekly</button>
+                <button onClick={handleClickType("total")} className={`w-[150px] h-[40px] rounded-[16px] p-[8px] border font-rubik font-medium text-[16px] transition-all duration-300 ${type === "total" ? 'border-transparent bg-primary text-white' : 'hover:border-transparent hover:text-white hover:bg-primary text-secondary border-secondary '}`}>All Time</button>
+            </div>
+            <div className="mt-[16px] w-[327px] rounded-[20px] bg-[#FFB380] p-[16px] mx-auto flex items-center relative">
+                <div className="w-[56px] h-[56px] flex items-center justify-center bg-[#FF9B57] rounded-[20px] text-[24px] font-medium">#4</div>
+                <div className="ml-[16px] font-rubik text-[16px] font-medium leading-[24px] flex-1">You are doing better than 60% of other players!</div>
+                <img className="absolute h-[95px] top-0 right-0 translate-x-[50px]" src="/imgs/print.png" alt="" />
+            </div>
+            <div className="w-[318px] mx-auto grid grid-cols-3 mt-[30px]">
+                <div className="flex flex-col items-center justify-end">
+                    <Avatar userid={users[1]?.userid} className="border border-secondary" width={56} height={56} username={users[1]?.username} />
+                    <div className="w-[92px] font-caveat px-1 text-center text-[20px] leading-[30px] text-ellipsis whitespace-nowrap overflow-clip mt-[16px]">{users[1]?.firstname || '---'}</div>
+                    <div className="bg-primary rounded-[12px] w-[92px] h-[34px] flex items-center justify-center font-rubik text-[12px] font-medium">
+                        {type == "week" && users[1]?.weeklyScore}
+                        {type == "total" && users[1]?.totalScore}
+                    </div>
+                    <div className="border-b-[16px] border-b-[#96DBFE] border-l-[16px] border-l-transparent mt-[9px] w-full" />
+                    <div className="h-[148px] bg-primary w-full text-center leading-[112px] text-[80px] font-bold font-inter">2</div>
                 </div>
-                <div className="flex">
-                    <div className="flex justify-center items-end flex-1 translate-y-[70px]">
-                        <div className="p-[4px] rounded-full bg-gradient-to-b from-[#4474A2] to-[#0E1932]">
-                            <Avatar userid={users[1]?.userid} width={60} height={60} username={users[1]?.username} />
-                        </div>
+                <div className="flex flex-col items-center">
+                    <img width={35} height={28} className="absolute" src="/imgs/crown.svg" alt="crown" />
+                    <Avatar userid={users[0]?.userid} className="border border-secondary" width={56} height={56} username={users[0]?.username} />
+                    <div className="w-[92px] font-caveat px-1 text-center text-[20px] leading-[30px] text-ellipsis whitespace-nowrap overflow-clip mt-[16px]">{users[0]?.firstname || '---'}</div>
+                    <div className="bg-primary rounded-[12px] w-[92px] h-[34px] flex items-center justify-center font-rubik text-[12px] font-medium">
+                        {type == "week" && users[0]?.weeklyScore}
+                        {type == "total" && users[0]?.totalScore}
                     </div>
-                    <div className="flex items-center justify-center flex-1 translate-y-[28px]">
-                        <div className="p-[4px] rounded-full bg-gradient-to-b from-[#FEC63C] to-[#C85929]">
-                            <Avatar userid={users[0]?.userid} width={74} height={74} username={users[0]?.username} />
-                        </div>
-                    </div>
-                    <div className="flex justify-center items-end flex-1 translate-y-[70px]">
-                        <div className="p-[4px] rounded-full bg-gradient-to-b from-[#3E4ECA] to-[#231450]">
-                            <Avatar userid={users[2]?.userid} width={60} height={60} username={users[2]?.username} />
-                        </div>
-                    </div>
+                    <div className="border-b-[16px] border-b-[#96DBFE] border-x-[16px] border-x-transparent mt-[9px] w-full" />
+                    <div className="h-[180px] bg-gradient-to-b from-[#39BDFF] to-[#64DDFF] w-full text-center leading-[140px] text-[100px] font-bold font-inter">1</div>
                 </div>
-                <div className="flex items-end">
-                    <div className="flex flex-col items-center justify-center flex-1 gap-1 pt-[20px] pb-2 bg-white/[0.21] rounded-l-[12px]">
-                        <div className="flex items-center justify-center w-5 h-5 text-xs -translate-y-[6px] bg-gradient-to-t from-[#0e1932] to-[#4474a2] rotate-45 rounded-[6px]"><span className="-rotate-45">2</span></div>
-                        <div className="text-center text-[12px] font-light font-inter overflow-ellipsis overflow-hidden whitespace-nowrap w-[80px]">{users[1]?.firstname || '---'}</div>
-                        <div className="text-[14px] font-semibold mt-[4px]">
-                            {type == "week" && (users[1]?.weeklyScore || '---')}
-                            {type == "month" && (users[1]?.monthlyScore || '---')}
-                            {type == "total" && (users[1]?.totalScore || '---')}
-                        </div>
-                        <div className="flex items-center gap-1 text-[14px] font-semibold text-primary mt-[4px]">
-                            <img width={9} height={10} src="/imgs/token.png" alt="" />
-                            <span>
-                                {type == "week" && (users[1]?.weeklyScore || '---')}
-                                {type == "month" && (users[1]?.monthlyScore || '---')}
-                                {type == "total" && (users[1]?.totalScore || '---')}
-                            </span>
-                        </div>
+                <div className="flex flex-col items-center justify-end">
+                    <Avatar userid={users[2]?.userid} className="border border-secondary" width={56} height={56} username={users[2]?.username} />
+                    <div className="w-[92px] font-caveat px-1 text-center text-[20px] leading-[30px] text-ellipsis whitespace-nowrap overflow-clip mt-[16px]">{users[2]?.firstname || '---'}</div>
+                    <div className="bg-primary rounded-[12px] w-[92px] h-[34px] flex items-center justify-center font-rubik text-[12px] font-medium">
+                        {type == "week" && users[2]?.weeklyScore}
+                        {type == "total" && users[2]?.totalScore}
                     </div>
-                    <div className="flex flex-col items-center justify-center flex-1 gap-1 pt-[32px] pb-[32px] bg-white rounded-t-[30px] text-primary">
-                        <div className="flex items-center justify-center w-5 h-5 text-xs -translate-y-[16px] text-white bg-gradient-to-t from-[#c85929] to-[#fec63c] rotate-45 rounded-[6px]"><span className="-rotate-45">1</span></div>
-                        <div className="text-center text-[12px] font-light font-inter overflow-ellipsis overflow-hidden whitespace-nowrap w-[80px]">{users[0]?.firstname}</div>
-                        <div className="font-semibold mt-[4px]">
-                            {type == "week" && users[0]?.weeklyScore}
-                            {type == "month" && users[0]?.monthlyScore}
-                            {type == "total" && users[0]?.totalScore}
-                        </div>
-                        <div className="flex items-center gap-1 text-[14px] font-semibold mt-[10px]">
-                            <img width={9} height={10} src="/imgs/token.png" alt="" />
-                            <span>
-                                {type == "week" && users[0]?.weeklyScore}
-                                {type == "month" && users[0]?.monthlyScore}
-                                {type == "total" && users[0]?.totalScore}
-                            </span>
-                        </div>
-                    </div>
-                    <div className="flex flex-col items-center justify-center flex-1 gap-1 pt-[20px] pb-2 bg-white/[0.21] rounded-r-[12px]">
-                        <div className="flex items-center justify-center w-5 h-5 text-xs -translate-y-[6px] bg-gradient-to-t from-[#231450] to-[#3e4eca] rotate-45 rounded-[6px]"><span className="-rotate-45">3</span></div>
-                        <div className="text-center text-[12px] font-light font-inter overflow-ellipsis overflow-hidden whitespace-nowrap w-[80px]">{users[2]?.firstname || '---'}</div>
-                        <div className="text-[14px] font-semibold mt-[4px]">
-                            {type == "week" && (users[2]?.weeklyScore || '---')}
-                            {type == "month" && (users[2]?.monthlyScore || '---')}
-                            {type == "total" && (users[2]?.totalScore || '---')}
-                        </div>
-                        <div className="flex items-center gap-1 text-[14px] font-semibold text-primary mt-[4px]">
-                            <img width={9} height={10} src="/imgs/token.png" alt="" />
-                            <span>
-                                {type == "week" && (users[2]?.weeklyScore || '---')}
-                                {type == "month" && (users[2]?.monthlyScore || '---')}
-                                {type == "total" && (users[2]?.totalScore || '---')}
-                            </span>
-                        </div>
-                    </div>
+                    <div className="border-b-[16px] border-b-[#96DBFE] border-r-[16px] border-r-transparent mt-[9px] w-full" />
+                    <div className="h-[116px] bg-primary w-full text-center leading-[84px] text-[60px] font-bold font-inter">3</div>
                 </div>
             </div>
-            <div className="flex justify-center gap-[12px] mt-5">
+            {/* <div className="flex justify-center gap-[12px] mt-5">
                 <div className="flex-col items-center justify-center px-[13px] py-[8px] bg-primary rounded-xl w-[102px]">
                     <div className="font-semibold text-center font-inter text-[16px] leading-[19px]">#{self?.token}</div>
                     <div className="flex items-center gap-1 text-[12px] mt-[3px] leading-[16px] text-center">Your Tokens <img width={3} height={5} src="/imgs/arrow.svg" alt="" /></div>
@@ -130,34 +98,30 @@ export default function Leaderboard() {
                 <div className="text-[30px] font-bold leading-none text-primary"><CountUp end={userCount} formatter={(val) => Math.floor(val).toLocaleString()} isCounting={isCounting} duration={0.5} /></div>
                 <span>users</span>
                 <div className="flex-1 mr-2 border-t border-white -translate-y-[10px]" />
-            </div>
-            <div className="flex justify-between items-center py-[4px] mx-[32px] mt-[20px] mb-[30px] bg-white/25 rounded-[10px] font-inter text-[12px]">
-                <div onClick={handleClickType("week")} className={`flex-1 text-center transition-all duration-300 font-semibold py-[10px] rounded-lg ml-1 hover:bg-primary ${type == "week" ? 'bg-primary cursor-not-allowed' : 'cursor-pointer'}`}>Weekly</div>
-                <div onClick={handleClickType("month")} className={`flex-1 text-center transition-all duration-300 font-semibold py-[10px] rounded-lg mx-1 hover:bg-primary ${type == "month" ? 'bg-primary cursor-not-allowed' : 'cursor-pointer'}`}>Monthly</div>
-                <div onClick={handleClickType("total")} className={`flex-1 text-center transition-all duration-300 font-semibold py-[10px] rounded-lg mr-1 hover:bg-primary ${type == "total" ? 'bg-primary cursor-not-allowed' : 'cursor-pointer'}`}>All time</div>
-            </div>
-            <div className="divide-y-[1px] divide-white/50 max-h-[200px] overflow-y-auto">
-                { users.slice(3).map((item, index) => 
-                    <div key={index} className="flex items-center mx-[32px] justify-between px-3 py-2 font-inter">
-                        <div className="flex gap-2">
-                            <Avatar userid={item.userid} width={35} height={35} username={item?.username} />
-                            <div className="flex flex-col justify-between">
-                                <div className="flex text-[12px] items-center"><span className="overflow-ellipsis overflow-hidden whitespace-nowrap max-w-[80px]">{item.firstname}</span> <img src="/imgs/token.png" width={9} height={10} className="mr-[5px] ml-[5px]" alt="" />
-                                    <span className="font-semibold text-primary">{item.onion}</span>
-                                </div>
-                                <div className="text-white/[0.13] text-[12px]">
-                                    {type == "week" && item.weeklyScore}
-                                    {type == "month" && item.monthlyScore}
-                                    {type == "total" && item.totalScore}
+            </div> */}
+            <div className="relative w-[359px] mx-auto -mt-[10px] p-[16px] bg-[#CBEAFA] rounded-[33px]">
+                <img src="/imgs/wave-circle.svg" className="absolute w-[50px] top-0 -translate-y-[8px] left-1/2 -translate-x-1/2" alt="" />
+                <div className="flex flex-col gap-[16px] h-[308px] overflow-y-auto">
+                    {users.slice(3).map((item, index) =>
+                        <div key={index} className="flex items-center gap-[16px] pt-[16px] pb-[20px] px-[16px] font-inter bg-white rounded-[20px]">
+                            <div className="text-[12px] font-rubik font-medium text-[#858494] w-[24px] h-[24px] border border-[#E6E6E6] rounded-full flex items-center justify-center">{index + 4}</div>
+                            <div className="flex gap-[16px] items-center">
+                                <Avatar userid={item.userid} width={56} height={56} className="border border-[#C4C4C4]" username={item?.username} />
+                                <div className="flex flex-col gap-[3px]">
+                                    <div className="overflow-ellipsis overflow-hidden whitespace-nowrap max-w-[150px] font-medium font-rubik text-[16px] text-[#0C092A]">{item.firstname}</div>
+                                    <div className="text-[#858494] text-[14px]">
+                                        {type == "week" && item.weeklyScore}
+                                        {type == "month" && item.monthlyScore}
+                                        {type == "total" && item.totalScore}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="text-[12px] font-bold">{index+4}</div>
-                    </div>
-                )}
-                {
-                    users.length <= 3 && <p className="text-center">No users to display</p>
-                }
+                    )}
+                    {
+                        users.length <= 3 && <p className="text-center">No users to display</p>
+                    }
+                </div>
             </div>
         </div>
     )
