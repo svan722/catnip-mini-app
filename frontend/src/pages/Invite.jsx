@@ -65,11 +65,11 @@ export default function Invite() {
                 <div className="mt-[8px] py-[8px] rounded-[12px] flex justify-around bg-[#39BDFFA3] font-roboto">
                     { token !== null && <div className="flex items-center gap-[6px]">
                         <img src="/imgs/coin.svg" width={24} height={24} alt="" />
-                        <span className="front-bold text-[16px]">{token}</span>
+                        <span className="front-bold text-[16px]">{token?.toLocaleString()}</span>
                     </div> }
                     { onion !== null && <div className="flex items-center gap-[6px]">
                         <img src="/imgs/token.png" width={21} height={23} alt="" />
-                        <span className="front-bold text-[16px]">{onion}</span>
+                        <span className="front-bold text-[16px]">{onion?.toLocaleString()}</span>
                     </div> }
                 </div>
             </div>

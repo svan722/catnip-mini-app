@@ -51,7 +51,7 @@ export default function Catnip() {
             <div className="flex flex-col items-center mt-[32px]">
                 <div className="flex items-center gap-[8px]">
                     <img src="/imgs/token.png" width={21} height={23} alt="" />
-                    <span className="font-bold text-[28px] leading-[42px] font-poppins">{onion}</span>
+                    <span className="font-bold text-[28px] leading-[42px] font-poppins">{onion?.toLocaleString()}</span>
                 </div>
                 <div className="flex items-center gap-[4px]">
                     <img src="/imgs/lightning.svg" width={14} height={14} alt="" />
