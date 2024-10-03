@@ -52,11 +52,11 @@ export default function Home() {
             return;
         }
 
-        const { clientX, clientY } = e;
+        const { pageX, pageY } = e;
         const newPlusOne = {
             id: Date.now(),
-            x: clientX,
-            y: clientY,
+            x: pageX,
+            y: pageY,
         };
         // Add the new +1 to the state array
         setPlusOnes((prevPlusOnes) => [...prevPlusOnes, newPlusOne]);
