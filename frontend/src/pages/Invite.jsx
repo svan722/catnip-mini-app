@@ -91,9 +91,8 @@ export default function Invite() {
                                 <div className="flex text-[12px] items-center">
                                     <span className="flex-1 overflow-hidden overflow-ellipsis whitespace-nowrap">{friend.firstname + ''}</span>
                                     <img src="/imgs/token.png" width={9} height={10} className="mr-[5px] ml-[5px]" alt="" />
-                                    <span className="font-semibold text-primary">{ friend.token }</span>
+                                    <span className="font-semibold text-primary">{ friend.onion }</span>
                                 </div>
-                                <div className="text-white/[0.13] text-[12px] text-black">{ friend.token }</div>
                             </div>
                         </div>)
                     }
