@@ -6,7 +6,7 @@ export const MINER_STATUS = {
 export const LINK = {
     TELEGRAM_MINIAPP: 'https://t.me/supercool_catnip_bot',
     TELEGRAM_GROUP: 'https://t.me/tonredonion_onon',
-    TELEGRAM_CHANNEL: 'https://t.me/ONON_ANNOUNCEMENT',
+    TELEGRAM_CHANNEL: 'https://t.me/CATNIP_ANNOUNCEMENT',
     X: 'https://x.com/TONONION_ONON?t=WKRiaAMa4ZPsfzPpj-g_sg&s=09',
     YOUTUBE: 'https://youtube.com/@Cointswap',
     WEBSITE: 'https://coint.xyz/',

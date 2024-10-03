@@ -83,9 +83,9 @@ export default function Invite() {
             <div className="relative mt-[38px]">
                 <img className="absolute h-[95px] right-0 top-0 -translate-y-[50px] translate-x-[30px]" src="/imgs/print.png" alt="" />
                 <h2 className="font-caveat font-medium text-[25px] leading-[22px]">List of your friends</h2>
-                <div className="mt-[10px] h-[174px] bg-white/10 rounded-[10px] shadow-[0_0_30px_#98D1FF33] overflow-y-scroll divide-y">
+                <div className="mt-[10px] h-[174px] bg-white/10 rounded-[10px] shadow-[0_0_30px_#98D1FF33] overflow-y-scroll flex flex-col gap-2 p-2">
                     {
-                        friends.map((friend, key) => <div key={key} className="flex items-center gap-2 px-3 py-2 font-inter">
+                        friends.map((friend, key) => <div key={key} className="flex items-center gap-2 px-3 py-2 bg-white font-inter text-secondary rounded-[8px]">
                             <Avatar userid={friend.userid} width={35} height={35} username={friend?.username} />
                             <div className="flex flex-col justify-between flex-1">
                                 <div className="flex text-[12px] items-center">
@@ -93,7 +93,7 @@ export default function Invite() {
                                     <img src="/imgs/token.png" width={9} height={10} className="mr-[5px] ml-[5px]" alt="" />
                                     <span className="font-semibold text-primary">{ friend.token }</span>
                                 </div>
-                                <div className="text-white/[0.13] text-[12px]">{ friend.onion }</div>
+                                <div className="text-white/[0.13] text-[12px] text-black">{ friend.token }</div>
                             </div>
                         </div>)
                     }
