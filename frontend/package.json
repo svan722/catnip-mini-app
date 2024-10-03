@@ -1,0 +1,47 @@
+{
+  "name": "catnip-frontend",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "homepage": "",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@eeacms/countup": "^2.0.6",
+    "@telegram-apps/react-router-integration": "^1.0.0",
+    "@telegram-apps/sdk-react": "^1.0.0",
+    "@telegram-apps/telegram-ui": "^2.1.4",
+    "@tonconnect/ui-react": "^2.0.5",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@uidotdev/usehooks": "^2.4.1",
+    "axios": "^1.7.7",
+    "eruda": "^3.0.1",
+    "react": "^18.2.0",
+    "react-countdown": "^2.3.6",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.26.2",
+    "react-toastify": "^10.0.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.4",
+    "@babel/eslint-parser": "^7.24.1",
+    "@babel/preset-env": "^7.24.4",
+    "@babel/preset-react": "^7.24.1",
+    "@vitejs/plugin-basic-ssl": "^1.1.0",
+    "@vitejs/plugin-react-swc": "^3.6.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "globals": "^15.2.0",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
+    "vite": "^5.1.5"
+  }
+}
