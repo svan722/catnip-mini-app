@@ -4,7 +4,7 @@ import { useTonWallet, useTonConnectUI, CHAIN } from '@tonconnect/ui-react';
 import { toast } from 'react-toastify';
 import API from '@/libs/api';
 import Countdown from 'react-countdown';
-import { OWNER_ADDRESS } from "@/libs/constants";
+import { OWNER_ADDRESS, IS_MAINNET } from "@/libs/constants";
 
 export default function Boost() {
     const { user } = useInitData();
@@ -59,7 +59,7 @@ export default function Boost() {
         const amount = (item.price * Math.pow(10, 9)).toString();
         tonConnectUI.sendTransaction({
                 validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
-                network: CHAIN.MAINNET,
+                network: IS_MAINNET ? CHAIN.MAINNET : CHAIN.TESTNET,
                 messages: [
                     {
                         address: OWNER_ADDRESS,

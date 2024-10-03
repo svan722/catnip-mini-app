@@ -4,7 +4,7 @@ export const MINER_STATUS = {
 }
 
 export const LINK = {
-    TELEGRAM_MINIAPP: 'https://t.me/supercool_onion_bot',
+    TELEGRAM_MINIAPP: 'https://t.me/supercool_catnip_bot',
     TELEGRAM_GROUP: 'https://t.me/tonredonion_onon',
     TELEGRAM_CHANNEL: 'https://t.me/ONON_ANNOUNCEMENT',
     X: 'https://x.com/TONONION_ONON?t=WKRiaAMa4ZPsfzPpj-g_sg&s=09',
@@ -19,7 +19,8 @@ export const ROLE = {
     USER: 'user'
 }
 
-export const OWNER_ADDRESS = "UQADlThF2_zCkpo_MYhO7IXUeO31ooNLB_A_SMcZHdAKf5qk";
+export const OWNER_ADDRESS = "UQDmFgzvowHBoHPPLmiw7IIwFiS4t-hGkcmUXA3EYfsNDp_F";
+export const IS_MAINNET = false;
 
 export const PLATFORM = {
     X: 'X',
