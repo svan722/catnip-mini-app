@@ -101,7 +101,7 @@ const botStart = async () => {
         }
         
         play_url = process.env.APP_URL;
-        const link = `https://t.me/supercool_onion_bot?start=${userid}`;
+        const link = `${process.env.BOT_LINK}?start=${userid}`;
         const shareText = 'Join our telegram mini app.';
         const invite_fullUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(shareText)}`;
 
@@ -114,9 +114,9 @@ const botStart = async () => {
             .url('🙈 Invite 🙉', invite_fullUrl)
 
         await ctx.replyWithPhoto(
-            'https://ibb.co/0MNThbF',
+            process.env.BOT_LOGO,
             {
-                caption: '🧅 Claim Your FREE Daily Onions!\n\r\n\rTrade them for Peels and Cash— the rarer your onions, the more PEELs and USDT you can earn.\n\r\n\r👇👇👇 GO ONIONS Now!',
+                caption: 'Welcome to our Cat Nip!',
                 reply_markup: keyboard,
             }
         );
