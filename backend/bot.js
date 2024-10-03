@@ -108,8 +108,8 @@ const botStart = async () => {
         const keyboard = new InlineKeyboard()
             .webApp('🧅 Play Now 🧅', play_url)
             .row()
-            .url('🚀 ✖ 🚀', 'https://x.com/TONONION_ONON?t=WKRiaAMa4ZPsfzPpj-g_sg&s=09')
-            .url('👬 Join 👬', 'https://t.me/ONON_ANNOUNCEMENT')
+            .url('🚀 ✖ 🚀', 'https://x.com/catnipsprint?t=w6y2Ld46pP0EkDVx-ots_w&s=09')
+            .url('👬 Join 👬', 'https://t.me/CATNIP_ANNOUNCEMENT')
             .row()
             .url('🙈 Invite 🙉', invite_fullUrl)
 
