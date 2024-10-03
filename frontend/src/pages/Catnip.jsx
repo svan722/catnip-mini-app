@@ -38,10 +38,10 @@ export default function Catnip() {
                 <img src="/imgs/onion.png" width={276} height={343} alt="" />
             </div>
             <div className="flex justify-center gap-[6px] mt-[29px] relative">
-                <Link to="/" className="flex gap-[3px] items-center justify-center bg-primary hover:-translate-y-1 active:translate-y-0 transition-all duration-300 rounded-[5px] w-[129px] h-[45px]">
+                {/* <Link to="/" className="flex gap-[3px] items-center justify-center bg-primary hover:-translate-y-1 active:translate-y-0 transition-all duration-300 rounded-[5px] w-[129px] h-[45px]">
                     <img src="/imgs/tap.svg" width={25} height={25} alt="" />
                     <span className="font-poppins font-semibold text-[14px] text-[#EEF5F8]">Tap Catnip</span>
-                </Link>
+                </Link> */}
                 <Link to="/boost" className="flex gap-[6px] items-center justify-center bg-gradient-to-br from-[#42C948] via-[#20BC2F] to-[#40CA30] hover:bg-[#42C948] hover:outline outline-1 outline-offset-2 outline-[#40CA30] hover:-translate-y-1 active:translate-y-0 transition-all duration-300 rounded-full w-[128px] h-[45px]">
                     <img src="/imgs/boost.svg" width={29} height={29} alt="" />
                     <span className="font-poppins font-semibold text-[14px] text-[#EEF5F8]">Boost</span>
