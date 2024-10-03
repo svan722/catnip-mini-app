@@ -86,7 +86,7 @@ export default function Home() {
                 /> : null
             }
             <h1 className="text-center font-mansalva text-[39px] leading-none text-black">Catnip Sprint</h1>
-            <div className="relative mt-[25px]">
+            <div className="relative mt-[25px] flex justify-center">
                 <img onClick={handleTap} className={`h-[424px] transition-transform duration-300 active:scale-90 ${ energy < loseEnergyPerTap ? 'cursor-not-allowed' : 'cursor-pointer' }`} draggable="false" src="/imgs/logo.png" alt="" />
             </div>
             <div className="flex flex-col items-center">

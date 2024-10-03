@@ -10,6 +10,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   min-height: 100vh;
   background-color: #78CDF0;
