@@ -60,8 +60,8 @@ export default function Leaderboard() {
                     <div className="border-b-[16px] border-b-[#96DBFE] border-l-[16px] border-l-transparent mt-[9px] w-full" />
                     <div className="h-[148px] bg-primary w-full text-center leading-[112px] text-[80px] font-bold font-inter">2</div>
                 </div>
-                <div className="flex flex-col items-center">
-                    <img width={35} height={28} className="absolute" src="/imgs/crown.svg" alt="crown" />
+                <div className="relative flex flex-col items-center">
+                    <img width={35} height={28} className="absolute top-0 z-10 -translate-x-1/2 -translate-y-1/2 left-1/2" src="/imgs/crown.svg" alt="crown" />
                     <Avatar userid={users[0]?.userid} className="border border-secondary" width={56} height={56} username={users[0]?.username} />
                     <div className="w-[92px] font-caveat px-1 text-center text-[20px] leading-[30px] text-ellipsis whitespace-nowrap overflow-clip mt-[16px]">{users[0]?.firstname || '---'}</div>
                     <div className="bg-primary rounded-[12px] w-[92px] h-[34px] flex items-center justify-center font-rubik text-[12px] font-medium">
