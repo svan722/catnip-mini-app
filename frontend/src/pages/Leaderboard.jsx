@@ -89,7 +89,7 @@ export default function Leaderboard() {
                 </div>
                 <div className="flex-col items-center justify-center px-[13px] py-[8px] bg-primary rounded-xl w-[102px]">
                     <div className="font-semibold text-center font-inter text-[16px] leading-[19px]">#{self?.onion}</div>
-                    <div className="flex items-center gap-1 text-[12px] mt-[3px] leading-[16px] text-center">Your ONION <img width={3} height={5} src="/imgs/arrow.svg" alt="" /></div>
+                    <div className="flex items-center gap-1 text-[12px] mt-[3px] leading-[16px] text-center">Your Catnip <img width={3} height={5} src="/imgs/arrow.svg" alt="" /></div>
                 </div>
             </div>
             <div className="flex items-end justify-center gap-2 font-poppins mt-[20px]">
