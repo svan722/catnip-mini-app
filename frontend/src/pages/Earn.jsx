@@ -274,7 +274,7 @@ export default function Earn() {
                     <button disabled={isFollowingX} onClick={() => setOpenFollowXModal(true)} className="w-[85px] h-[31px] rounded-[9px] bg-transparent border border-secondary hover:border-transparent disabled:border-transparent font-medium disabled:bg-white disabled:hover:cursor-not-allowed disabled:text-primary hover:bg-white text-secondary hover:text-primary font-poppins text-[10px] transition-colors duration-300">{isFollowingX ? 'Followed' : 'Redeem'}</button>
                     {openFollowXModal && <FollowXDialog isOpen={openFollowXModal} setOpen={setOpenFollowXModal} callback={handleFollowX} userid={user.id} />}
                 </div>
-                <div className="py-[14px] flex items-center justify-between">
+                {/* <div className="py-[14px] flex items-center justify-between">
                     <div className="flex items-center gap-[11px]">
                         <div className="h-[43px] w-[43px] rounded-[2px] border border-[#81C3D71A] bg-primary flex items-center justify-center">
                             <img src="/imgs/telegram.svg" width={23} height={19} alt="" />
@@ -292,7 +292,7 @@ export default function Earn() {
                     </div>
                     <button disabled={isJoinedTelegramGroup} onClick={() => setOpenGroupModal(true)} className="w-[85px] h-[31px] rounded-[9px] bg-transparent border border-secondary hover:border-transparent disabled:border-transparent font-medium disabled:bg-white disabled:hover:cursor-not-allowed disabled:text-primary hover:bg-white text-secondary hover:text-primary font-poppins text-[10px] transition-colors duration-300">{isJoinedTelegramGroup ? 'Joined' : 'Redeem'}</button>
                     {openGroupModal && <GroupModal isOpen={openGroupModal} setOpen={setOpenGroupModal} callback={handleJoinTelegramGroup}/>}
-                </div>
+                </div> */}
             </div>
             <div className="mt-[28px] text-[19px] leading-[23px] font-inter font-bold">Daily Task</div>
             <div className="relative">
