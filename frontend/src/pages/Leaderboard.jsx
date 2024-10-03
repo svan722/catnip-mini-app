@@ -46,7 +46,7 @@ export default function Leaderboard() {
             </div>
             <div className="mt-[16px] w-[327px] rounded-[20px] bg-[#FFB380] p-[16px] mx-auto flex items-center relative">
                 <div className="w-[56px] h-[56px] flex items-center justify-center bg-[#FF9B57] rounded-[20px] text-[24px] font-medium">{ selfRank > 0 ? '#' + selfRank.toLocaleString() : '' }</div>
-                <div className="ml-[16px] font-rubik text-[16px] font-medium leading-[24px] flex-1">You are doing better than { Math.floor((userCount - selfRank + 1) / userCount * 100) }% of other players!</div>
+                <div className="ml-[16px] font-rubik text-[16px] font-medium leading-[24px] flex-1">You are doing better than { Math.floor((userCount - selfRank) / (userCount - 1) * 100) }% of other players!</div>
                 <img className="absolute h-[95px] top-0 right-0 translate-x-[50px]" src="/imgs/print.png" alt="" />
             </div>
             <div className="w-[318px] mx-auto grid grid-cols-3 mt-[30px]">
