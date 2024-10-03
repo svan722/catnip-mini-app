@@ -11,7 +11,7 @@ export const LINK = {
     YOUTUBE: 'https://youtube.com/@Cointswap',
     WEBSITE: 'https://coint.xyz/',
     TWEET: 'https://x.com/TONONION_ONON/status/1840404476878037043?t=xsTWy9nkhQuXk95VrHCAHQ&s=19',
-    MANIFEST: 'https://supercoolx.github.io/manifests/tonconnect-manifest.json',
+    MANIFEST: 'https://supercoolx.github.io/manifests/catnip-manifest.json',
 }
 
 export const ROLE = {
