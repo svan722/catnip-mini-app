@@ -101,9 +101,9 @@ export default function Leaderboard() {
             </div> */}
             <div className="relative w-[359px] mx-auto -mt-[10px] p-[16px] bg-[#CBEAFA] rounded-[33px]">
                 <img src="/imgs/wave-circle.svg" className="absolute w-[50px] top-0 -translate-y-[8px] left-1/2 -translate-x-1/2" alt="" />
-                <div className="flex flex-col gap-[16px] h-[308px] overflow-y-auto">
+                <div className="flex flex-col gap-[16px] h-[314px] overflow-y-auto">
                     {users.slice(3).map((item, index) =>
-                        <div key={index} className="flex items-center gap-[16px] pt-[16px] pb-[20px] px-[16px] font-inter bg-white rounded-[20px]">
+                        <div key={index} className={`flex items-center gap-[16px] pt-[16px] pb-[20px] px-[16px] font-inter bg-white border rounded-[20px] ${ user.id == item.userid ? 'border-yellow-500' : 'border-transparent' }`}>
                             <div className="text-[12px] font-rubik font-medium text-[#858494] w-[24px] h-[24px] border border-[#E6E6E6] rounded-full flex items-center justify-center">{index + 4}</div>
                             <div className="flex gap-[16px] items-center">
                                 <Avatar userid={item.userid} width={56} height={56} className="border border-[#C4C4C4]" username={item?.username} />
