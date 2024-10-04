@@ -13,7 +13,7 @@ export default function Boost() {
     const [tonConnectUI, ] = useTonConnectUI();
 
     const [items, setItems] = useState();
-    const [totalPrice, setTotalPrice] = useState(0);
+    const [totalPrice, setTotalPrice] = useState({usersCount: 0, price: 0});
     const [totalUsers, setTotalUsers] = useState(0);
     const [purchasedItem, setPurchasedItem] = useState();
     const [endTime, setEndTime] = useState(0);
@@ -32,9 +32,7 @@ export default function Boost() {
                     setEndTime(res.data.boost.endTime);
                 }
                 if (res.data.success || res.data.status == 'noboost') {
-                    const total = res.data.boosts?.reduce((total, boost) => total + boost.item.price, 0);
-                    setTotalPrice(total);
-                    setTotalUsers(res.data.boosts?.length);
+                    setTotalPrice(res.data.total);
                 }
             }).catch(err => {
                 toast.error('Something went wrong.');
@@ -92,7 +90,7 @@ export default function Boost() {
             <p className="font-poppins text-center text-black text-[10px] leading-[15px]">Make our tasks to get more coins </p>
             <div className="flex justify-between items-center mt-[20px]">
                 <button onClick={handleConnectWallet} className="px-[10px] h-[45px] rounded-[5px] bg-primary text-white font-poppins text-[12px] font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_5px_5px_#333333]">{ wallet ? wallet.account.address?.slice(0, 5) + '...' + wallet.account.address?.slice(-5) : 'Connect Wallet' }</button>
-                <div className="text-[14px] text-black font-rubik font-medium leading-none">Total <span className="text-primary">{ totalPrice.toLocaleString() }</span> TON <span className="text-primary">{ totalUsers.toLocaleString() }</span> Users</div>
+                <div className="text-[14px] text-black font-rubik font-medium leading-none">Total <span className="text-primary">{ totalPrice.pricetoLocaleString() }</span> TON <span className="text-primary">{ totalUsersusersCount.toLocaleString() }</span> Users</div>
             </div>
             <div className="mt-[27px] divide-y-[1px]">
                 {
