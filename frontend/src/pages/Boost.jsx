@@ -74,6 +74,8 @@ export default function Boost() {
                     toast.success(res.data.msg);
                     setPurchasedItem(items?.find(i => i._id === item._id));
                     setEndTime(res.data.boost.endTime);
+                    setTotalUser(prev => prev + 1);
+                    setTotalPrice(prev => prev + res.data.boost.item.price);
                 } else {
                     toast.error(res.data.msg);
                 }
