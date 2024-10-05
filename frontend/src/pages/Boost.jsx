@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useInitData } from '@telegram-apps/sdk-react';
-import { useTonWallet, useTonConnectUI, CHAIN } from '@tonconnect/ui-react';
+import { useTonWallet, useTonConnectUI, CHAIN, useTonAddress } from '@tonconnect/ui-react';
 import { toast } from 'react-toastify';
 import API from '@/libs/api';
 import Countdown from 'react-countdown';
@@ -10,6 +10,7 @@ export default function Boost() {
     const { user } = useInitData();
 
     const wallet = useTonWallet();
+    const tonAddress = useTonAddress(true);
     const [tonConnectUI, ] = useTonConnectUI();
 
     const [items, setItems] = useState();
@@ -91,7 +92,7 @@ export default function Boost() {
             </div>
             <p className="font-poppins text-center text-black text-[10px] leading-[15px]">Make our tasks to get more coins </p>
             <div className="flex justify-between items-center mt-[20px]">
-                <button onClick={handleConnectWallet} className="px-[10px] h-[45px] rounded-[5px] bg-primary text-white font-poppins text-[12px] font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_5px_5px_#333333]">{ wallet ? wallet.account.address?.slice(0, 5) + '...' + wallet.account.address?.slice(-5) : 'Connect Wallet' }</button>
+                <button onClick={handleConnectWallet} className="px-[10px] h-[45px] rounded-[5px] bg-primary text-white font-poppins text-[12px] font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_5px_5px_#333333]">{ wallet ? tonAddress?.slice(0, 5) + '...' + tonAddress?.slice(-5) : 'Connect Wallet' }</button>
                 <div className="text-[14px] text-black font-rubik font-medium leading-none">Total <span className="text-primary">{ totalPrice.price.toLocaleString() }</span> TON <span className="text-primary">{ totalPrice.usersCount.toLocaleString() }</span> Users</div>
             </div>
             <div className="mt-[27px] divide-y-[1px]">
