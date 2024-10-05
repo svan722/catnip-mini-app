@@ -108,7 +108,7 @@ const botStart = async () => {
         const keyboard = new InlineKeyboard()
             .webApp('🧅 Play Now 🧅', play_url)
             .row()
-            .url('🚀 ✖ 🚀', 'https://x.com/catnipsprint?t=w6y2Ld46pP0EkDVx-ots_w&s=09')
+            .url('🚀 ✖ 🚀', 'https://x.com/catnipsprint?t=w9mTEnT0h7M7zzj9ki4jpw&s=09')
             .url('👬 Join 👬', 'https://t.me/CATNIP_ANNOUNCEMENT')
             .row()
             .url('🙈 Invite 🙉', invite_fullUrl)
@@ -116,7 +116,7 @@ const botStart = async () => {
         await ctx.replyWithPhoto(
             process.env.BOT_LOGO,
             {
-                caption: 'Welcome to our Cat Nip!',
+                caption: '🐾 Tap Catnip and Collect Points!\r\n\r\nExchange your points for tokens and earn USDT. The more Catnip you tap, the bigger your rewards!\r\n\r\n🎁 Invite friends and earn even more points! The more friends you bring, the greater the rewards.\r\n\r\n🚀 Start now! 👇👇👇',
                 reply_markup: keyboard,
             }
         );
