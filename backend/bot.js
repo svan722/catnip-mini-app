@@ -106,7 +106,7 @@ const botStart = async () => {
         const invite_fullUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(shareText)}`;
 
         const keyboard = new InlineKeyboard()
-            .webApp('🧅 Play Now 🧅', play_url)
+            .webApp('😺 Play Now 😺', play_url)
             .row()
             .url('🚀 ✖ 🚀', 'https://x.com/catnipsprint?t=w9mTEnT0h7M7zzj9ki4jpw&s=09')
             .url('👬 Join 👬', 'https://t.me/CATNIP_ANNOUNCEMENT')
