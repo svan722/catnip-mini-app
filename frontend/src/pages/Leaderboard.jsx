@@ -44,6 +44,13 @@ export default function Leaderboard() {
                 <button onClick={handleClickType("week")} className={`w-[150px] h-[40px] z-10 rounded-[16px] p-[8px] border font-rubik font-medium text-[16px] transition-all duration-300 ${type === "week" ? 'border-transparent bg-primary text-white' : 'hover:border-transparent hover:text-white hover:bg-primary text-secondary border-secondary '}`}>Weekly</button>
                 <button onClick={handleClickType("total")} className={`w-[150px] h-[40px] rounded-[16px] p-[8px] border font-rubik font-medium text-[16px] transition-all duration-300 ${type === "total" ? 'border-transparent bg-primary text-white' : 'hover:border-transparent hover:text-white hover:bg-primary text-secondary border-secondary '}`}>All Time</button>
             </div>
+            <div className="flex items-end justify-center gap-2 font-poppins mt-[20px]">
+                <div className="flex-1 ml-2 border-t border-white -translate-y-[10px]" />
+                <span>total</span>
+                <div className="text-[30px] font-bold leading-none text-primary"><CountUp end={userCount} formatter={(val) => Math.floor(val).toLocaleString()} isCounting={isCounting} duration={0.5} /></div>
+                <span>users</span>
+                <div className="flex-1 mr-2 border-t border-white -translate-y-[10px]" />
+            </div>
             <div className="mt-[16px] w-[327px] rounded-[20px] bg-[#FFB380] p-[16px] mx-auto flex items-center relative">
                 <div className="w-[56px] h-[56px] flex items-center justify-center bg-[#FF9B57] rounded-[20px] text-[24px] font-medium">{ selfRank > 0 ? '#' + selfRank.toLocaleString() : '' }</div>
                 <div className="ml-[16px] font-rubik text-[16px] font-medium leading-[24px] flex-1">You are doing better than { Math.floor((userCount - selfRank) / (userCount - 1) * 100) }% of other players!</div>
@@ -91,13 +98,6 @@ export default function Leaderboard() {
                     <div className="font-semibold text-center font-inter text-[16px] leading-[19px]">#{self?.onion}</div>
                     <div className="flex items-center gap-1 text-[12px] mt-[3px] leading-[16px] text-center">Your Catnip <img width={3} height={5} src="/imgs/arrow.svg" alt="" /></div>
                 </div>
-            </div>
-            <div className="flex items-end justify-center gap-2 font-poppins mt-[20px]">
-                <div className="flex-1 ml-2 border-t border-white -translate-y-[10px]" />
-                <span>total</span>
-                <div className="text-[30px] font-bold leading-none text-primary"><CountUp end={userCount} formatter={(val) => Math.floor(val).toLocaleString()} isCounting={isCounting} duration={0.5} /></div>
-                <span>users</span>
-                <div className="flex-1 mr-2 border-t border-white -translate-y-[10px]" />
             </div> */}
             <div className="relative w-[359px] mx-auto -mt-[10px] p-[16px] bg-[#CBEAFA] rounded-[33px]">
                 <img src="/imgs/wave-circle.svg" className="absolute w-[50px] top-0 -translate-y-[8px] left-1/2 -translate-x-1/2" alt="" />
