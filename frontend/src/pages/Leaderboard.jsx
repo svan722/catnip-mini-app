@@ -6,7 +6,7 @@ import { CountUp } from "@eeacms/countup";
 
 export default function Leaderboard() {
     const [users, setUsers] = useState([]);
-    const [type, setType] = useState("week");
+    const [type, setType] = useState("total");
     const [selfRank, setSelfRank] = useState(-1);
     const [self, setSelf] = useState(null);
 
