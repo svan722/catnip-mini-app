@@ -89,19 +89,19 @@ export default function Leaderboard() {
                     <div className="h-[116px] bg-primary w-full text-center leading-[84px] text-[60px] font-bold font-inter">3</div>
                 </div>
             </div>
-            {/* <div className="flex justify-center gap-[12px] mt-5">
-                <div className="flex-col items-center justify-center px-[13px] py-[8px] bg-primary rounded-xl w-[102px]">
-                    <div className="font-semibold text-center font-inter text-[16px] leading-[19px]">#{self?.token}</div>
-                    <div className="flex items-center gap-1 text-[12px] mt-[3px] leading-[16px] text-center">Your Tokens <img width={3} height={5} src="/imgs/arrow.svg" alt="" /></div>
-                </div>
-                <div className="flex-col items-center justify-center px-[13px] py-[8px] bg-primary rounded-xl w-[102px]">
-                    <div className="font-semibold text-center font-inter text-[16px] leading-[19px]">#{self?.onion}</div>
-                    <div className="flex items-center gap-1 text-[12px] mt-[3px] leading-[16px] text-center">Your Catnip <img width={3} height={5} src="/imgs/arrow.svg" alt="" /></div>
-                </div>
-            </div> */}
             <div className="relative w-[359px] mx-auto -mt-[10px] p-[16px] bg-[#CBEAFA] rounded-[33px]">
                 <img src="/imgs/wave-circle.svg" className="absolute w-[50px] top-0 -translate-y-[8px] left-1/2 -translate-x-1/2" alt="" />
-                <div className="flex flex-col gap-[16px] h-[314px] overflow-y-auto">
+                <div className="flex justify-center gap-[12px] mb-4">
+                    <div className="flex flex-col items-center justify-center px-[13px] py-[8px] bg-primary rounded-xl w-[102px]">
+                        <div className="font-semibold text-center font-inter text-[16px] leading-[19px]">#{self?.token?.toLocaleString()}</div>
+                        <div className="flex items-center gap-1 text-[12px] mt-[3px] leading-[16px] text-center">Your Tokens</div>
+                    </div>
+                    <div className="flex flex-col items-center justify-center px-[13px] py-[8px] bg-primary rounded-xl w-[102px]">
+                        <div className="font-semibold text-center font-inter text-[16px] leading-[19px]">#{self?.onion?.toLocaleString()}</div>
+                        <div className="flex items-center gap-1 text-[12px] mt-[3px] leading-[16px] text-center">Your Catnip</div>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-[16px] h-[314px] rounded-[10px] overflow-y-auto">
                     {users.slice(3).map((item, index) =>
                         <div key={index} className={`flex items-center gap-[16px] pt-[16px] pb-[20px] px-[16px] font-inter bg-white border rounded-[20px] ${ user.id == item.userid ? 'border-yellow-500' : 'border-transparent' }`}>
                             <div className="text-[12px] font-rubik font-medium text-[#858494] w-[24px] h-[24px] border border-[#E6E6E6] rounded-full flex items-center justify-center">{index + 4}</div>
