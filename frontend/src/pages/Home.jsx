@@ -1,9 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import API from '@/libs/api';
 import { useInitData } from '@telegram-apps/sdk-react';
 import Countdown from 'react-countdown';
+import { Howl } from 'howler';
 
 export default function Home() {
+
+    const meows = useMemo(() => [
+        new Howl({ src: ['/mp3/meow1.mp3'] }),
+        new Howl({ src: ['/mp3/meow2.mp3'] }),
+        new Howl({ src: ['/mp3/meow3.mp3'] }),
+        new Howl({ src: ['/mp3/meow4.wav'] }),
+        new Howl({ src: ['/mp3/meow5.mp3'] }),
+    ], []);
+
     const { user } = useInitData();
 
     const [onion, setOnion] = useState(0);
@@ -51,6 +61,8 @@ export default function Home() {
         if(energy < loseEnergyPerTap) {
             return;
         }
+
+        meows[Math.floor(Math.random() * meows.length)].play();
 
         const { pageX, pageY } = e;
         const newPlusOne = {
