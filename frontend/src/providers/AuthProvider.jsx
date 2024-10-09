@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect, useEffect } from "react";
 import { createContext, useContext } from "react";
 import { useInitData } from "@telegram-apps/sdk-react";
 import API from "@/libs/api";
@@ -16,6 +16,15 @@ const AuthProvider = ({ children }) => {
     //     setShowSplash(false);
     // }
 
+    useEffect(() => {
+        Howler.mute(muted);
+        localStorage.setItem('volume', muted ? "off" : "on");
+    }, [muted]);
+
+    const toggleMusic = () => {
+        setMuted(prev => !prev);
+    }
+
     useLayoutEffect(() => {        
         API.post('/auth/login', { userid: user.id }).then((res) => {
             localStorage.setItem('token', `Bearer ${res.data.token}`);
@@ -28,7 +37,7 @@ const AuthProvider = ({ children }) => {
             src: ['/mp3/background.mp3'],
             autoplay: true,
             loop: true,
-            mute: muted
+            volume: 1
         });
 
         audio.play();
@@ -37,7 +46,7 @@ const AuthProvider = ({ children }) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ isAuthenticatied, muted, setMuted }}>
+        <AuthContext.Provider value={{ isAuthenticatied, muted, toggleMusic }}>
             {/* showSplash ? <Splash onClick={handleClickSplash} /> : children */}
             { children }
         </AuthContext.Provider>
