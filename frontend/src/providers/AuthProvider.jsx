@@ -2,18 +2,18 @@ import { useState, useLayoutEffect } from "react";
 import { createContext, useContext } from "react";
 import { useInitData } from "@telegram-apps/sdk-react";
 import API from "@/libs/api";
-import Splash from "@/components/Splash";
+// import Splash from "@/components/Splash";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
     const { user } = useInitData();
-    const [showSplash, setShowSplash] = useState(true);
+    // const [showSplash, setShowSplash] = useState(true);
     const [isAuthenticatied, setAuthenticated] = useState(false);
 
-    const handleClickSplash = () => {
-        setShowSplash(false);
-    }
+    // const handleClickSplash = () => {
+    //     setShowSplash(false);
+    // }
 
     useLayoutEffect(() => {        
         API.post('/auth/login', { userid: user.id }).then((res) => {
@@ -26,7 +26,8 @@ const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={{ isAuthenticatied }}>
-            { showSplash ? <Splash onClick={handleClickSplash} /> : children }
+            {/* showSplash ? <Splash onClick={handleClickSplash} /> : children */}
+            { children }
         </AuthContext.Provider>
     )
 }
