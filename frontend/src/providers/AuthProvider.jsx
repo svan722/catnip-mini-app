@@ -9,6 +9,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const { user } = useInitData();
     const [showSplash, setShowSplash] = useState(true);
+    const [muted, setMuted] = useState(localStorage.getItem('volume') === "off");
     const [isAuthenticatied, setAuthenticated] = useState(false);
 
     const handleClickSplash = () => {
@@ -22,10 +23,21 @@ const AuthProvider = ({ children }) => {
             console.log('User logined:', user.username, user.firstName, user.lastName);
         })
         .catch(console.error);
+
+        const audio = new Howl({
+            src: ['/mp3/background.mp3'],
+            autoplay: true,
+            loop: true,
+            mute: muted
+        });
+
+        audio.play();
+
+        return () => audio.unload();
     }, [])
 
     return (
-        <AuthContext.Provider value={{ isAuthenticatied }}>
+        <AuthContext.Provider value={{ isAuthenticatied, muted, setMuted }}>
             { showSplash ? <Splash onClick={handleClickSplash} /> : children }
         </AuthContext.Provider>
     )

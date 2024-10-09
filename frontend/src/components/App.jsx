@@ -21,8 +21,6 @@ import AuthProvider from '@/providers/AuthProvider';
 import Footer from '@/components/Footer';
 import { ToastContainer } from 'react-toastify';
 
-import { Howl } from 'howler';
-
 import { routes } from '@/navigation/routes.jsx';
 
 /**
@@ -33,18 +31,6 @@ export function App() {
   const miniApp = useMiniApp();
   const themeParams = useThemeParams();
   const viewport = useViewport();
-
-  useEffect(() => {
-    const bgAudio = new Howl({
-      src: ['/mp3/background.mp3'],
-      autoPlay: true,
-      loop: true
-    });
-
-    bgAudio.play();
-
-    return () => bgAudio.unload();
-  }, []);
 
   useEffect(() => {
     return bindMiniAppCSSVars(miniApp, themeParams);
