@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import API from '@/libs/api';
 import { useInitData } from '@telegram-apps/sdk-react';
 import Countdown from 'react-countdown';
-import { Howl } from 'howler';
+import { Howl, Howler } from 'howler';
 
 import { useAuth } from '@/providers/AuthProvider';
 
@@ -88,10 +88,15 @@ export default function Home() {
             setEnergy(res.data.energy);
         }
     }
+
+    const handleMute = () => {
+        Howler.mute(!muted);
+        setMuted(prev => !prev);
+    }
     
     return (
         <div className="pt-[60px] bg-gradient-to-b from-[#E1F4FB] to-[#78CDF0] pb-[60px]">
-            <button className="absolute top-2 left-2">
+            <button onClick={handleMute} className="absolute top-2 left-2">
                 { muted ? 
                     <img className="w-7 h-7" src="/imgs/mute.svg" alt="" /> :
                     <img className="w-7 h-7" src="/imgs/unmute.svg" alt="" />

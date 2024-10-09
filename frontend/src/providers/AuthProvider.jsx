@@ -9,6 +9,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const { user } = useInitData();
     // const [showSplash, setShowSplash] = useState(true);
+    const [muted, setMuted] = useState(localStorage.getItem('volume') === "off");
     const [isAuthenticatied, setAuthenticated] = useState(false);
 
     // const handleClickSplash = () => {
@@ -36,7 +37,7 @@ const AuthProvider = ({ children }) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ isAuthenticatied }}>
+        <AuthContext.Provider value={{ isAuthenticatied, muted, setMuted }}>
             {/* showSplash ? <Splash onClick={handleClickSplash} /> : children */}
             { children }
         </AuthContext.Provider>
