@@ -1,6 +1,7 @@
 import { useState, useLayoutEffect, useEffect, createContext, useContext } from "react";
 import { useInitData } from "@telegram-apps/sdk-react";
 import API from "@/libs/api";
+import { Howl, Howler } from "howler";
 // import Splash from "@/components/Splash";
 
 const AuthContext = createContext();
