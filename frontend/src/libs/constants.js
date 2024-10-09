@@ -10,7 +10,7 @@ export const LINK = {
     X: 'https://x.com/catnipsprint',
     YOUTUBE: 'https://youtube.com/@Cointswap',
     WEBSITE: 'https://coint.xyz/',
-    TWEET: 'https://x.com/catnipsprint?t=w9mTEnT0h7M7zzj9ki4jpw&s=09',
+    TWEET: 'https://x.com/catnipsprint/status/1843510913384755367?t=thZJpXgT8tB-j6Yr7KabYg&s=19',
     MANIFEST: 'https://supercoolx.github.io/manifests/catnip-manifest.json',
 }
 
