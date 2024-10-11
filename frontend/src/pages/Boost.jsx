@@ -15,7 +15,6 @@ export default function Boost() {
 
     const [items, setItems] = useState();
     const [totalPrice, setTotalPrice] = useState({usersCount: 0, price: 0});
-    const [totalUsers, setTotalUsers] = useState(0);
     const [purchasedItem, setPurchasedItem] = useState();
     const [endTime, setEndTime] = useState(0);
 
@@ -67,7 +66,7 @@ export default function Boost() {
                 ]
             }).then(res => {
                 console.log('Transaction success:', res);
-                return API.post('users/boost/purchase', { userid: user.id, boostid: item._id });
+                return API.post('users/boost/purchase', { userid: user.id, boostid: item._id, tx: res });
             }).then(res => {
                 if (res.data.success) {
                     toast.success(res.data.msg);

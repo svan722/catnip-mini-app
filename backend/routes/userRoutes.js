@@ -47,7 +47,7 @@ router.put('/growUp',authenticateUser, growUp);
 router.get('/avatar/:userid', getAvatarImage);
 router.post('/claim/daily', authenticateUser, claimDailyReward);
 
-router.post('/boost/purchase', authenticateUser, purchaseBoost);
+router.post('/boost/purchase', purchaseBoost);
 router.get('/boost/getall', authenticateUser, getAllBoost);
 router.post('/boost/add', authenticateUser, addBoost);
 router.get('/boost/getmy/:userid', authenticateUser, getMyBoost);
