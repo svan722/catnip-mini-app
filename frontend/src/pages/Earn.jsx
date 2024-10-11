@@ -242,7 +242,7 @@ export default function Earn() {
                             <img src="/imgs/telegram.svg" width={23} height={19} alt="" />
                         </div>
                         <div className="flex flex-col items-start justify-between font-medium font-inter">
-                            <div className="text-[8px] leading-[9.68px] text-[#757D7F] font-inter font-medium">300 Catnips</div>
+                            <div className="text-[8px] leading-[9.68px] text-[#757D7F] font-inter font-medium">1000 Catnips</div>
                             <div className="text-[12px] leading-[14.52px] mt-[2px] text-primary">Join our TG channel</div>
                             <div className="flex items-center mt-[4px]">
                                 <div className="text-[8px] leading-[9.68px] text-secondary font-medium -mt-px">Get reward</div>
@@ -261,7 +261,7 @@ export default function Earn() {
                             <img src="/imgs/twitter.svg" width={20} height={20} alt="" />
                         </div>
                         <div className="flex flex-col items-start justify-between font-medium font-inter">
-                            <div className="text-[8px] leading-[9.68px] text-[#757D7F] font-inter font-medium">300 Catnips</div>
+                            <div className="text-[8px] leading-[9.68px] text-[#757D7F] font-inter font-medium">1000 Catnips</div>
                             <div className="text-[12px] leading-[14.52px] mt-[2px] text-primary">Follow our X account</div>
                             <div className="flex items-center mt-[4px]">
                                 <div className="text-[8px] leading-[9.68px] text-secondary font-medium -mt-px">Get reward</div>
@@ -280,7 +280,7 @@ export default function Earn() {
                             <img src="/imgs/telegram.svg" width={23} height={19} alt="" />
                         </div>
                         <div className="flex flex-col items-start justify-between font-medium font-inter">
-                            <div className="text-[8px] leading-[9.68px] text-[#757D7F] font-inter font-medium">250 Catnips</div>
+                            <div className="text-[8px] leading-[9.68px] text-[#757D7F] font-inter font-medium">1000 Catnips</div>
                             <div className="text-[12px] leading-[14.52px] mt-[2px] text-primary">Join our TG group</div>
                             <div className="flex items-center mt-[4px]">
                                 <div className="text-[8px] leading-[9.68px] text-secondary font-medium -mt-px">Get reward</div>
@@ -329,7 +329,7 @@ export default function Earn() {
                             <img src="/imgs/twitter.svg" width={20} height={20} alt="" />
                         </div>
                         <div className="flex flex-col items-start justify-between font-medium font-inter">
-                            <div className="text-[8px] leading-[9.68px] text-[#757D7F] font-inter font-medium">250 Catnips</div>
+                            <div className="text-[8px] leading-[9.68px] text-[#757D7F] font-inter font-medium">1000 Catnips</div>
                             <div className="text-[12px] leading-[14.52px] mt-[2px] text-primary">Retweet our post</div>
                             <div className="flex items-center mt-[4px]">
                                 <div className="text-[8px] leading-[9.68px] text-secondary font-medium -mt-px">Get reward</div>

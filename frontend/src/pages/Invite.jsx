@@ -49,14 +49,14 @@ export default function Invite() {
                     <img src="/imgs/user.svg" width={23} height={23} alt="" />
                     <div className="font-poppins font-bold text-[11px]">
                         <div className="">Regular Users</div>
-                        <div className="text-primary mt-[2px]">100 Catnip</div>
+                        <div className="text-primary mt-[2px]">1000 Catnip</div>
                     </div>
                 </div>
                 <div className="flex items-center gap-[9px]">
                     <img src="/imgs/user-premium.svg" width={23} height={23} alt="" />
                     <div className="font-poppins font-bold text-[11px]">
                         <div className="">Premium Users</div>
-                        <div className="text-primary mt-[2px]">200 Catnip</div>
+                        <div className="text-primary mt-[2px]">2000 Catnip</div>
                     </div>
                 </div>
             </div>
