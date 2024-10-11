@@ -6,10 +6,13 @@ const { StatusCodes } = require('http-status-codes');
 const User = require('../models/User');
 const Follow = require('../models/Follow');
 const BoostItem = require('../models/BoostItem');
+const History = require('../models/BoostPurchaseHistory');
 
 const logger = require('../helper/logger');
 const { BONUS, TELEGRAM, LEADERBOARD_SHOW_USER_COUNT } = require('../helper/constants');
 const { isUserTGJoined } = require('../helper/botHelper');
+
+const { verifyTransaction } = require('../helper/transaction');
 
 const getUser = async (req, res) => {
   const { userid } = req.params;
@@ -329,7 +332,8 @@ const growUp = async (req,res) => {
 }
 
 const purchaseBoost = async (req, res) => {
-  const { userid, boostid } = req.body;
+  const { userid, boostid, tx } = req.body;
+  const quantity = 1;
   const user = await User.findOne({ userid });
   if(!user) {
     return res.status(StatusCodes.OK).json({success: false, status: 'nouser', msg: 'Not found user!'});
@@ -344,6 +348,10 @@ const purchaseBoost = async (req, res) => {
   if(!boostItem) {
     return res.status(StatusCodes.OK).json({success: false, status: 'noboostitem', msg: 'Not found boost item!'});
   }
+
+  const result = await verifyTransaction(tx, boostItem.price);
+  console.log('Verify result:', result);
+  if (!result.success) return res.status(StatusCodes.OK).json(result);
 
   var userBoost = null;
   switch (boostItem.type) {
@@ -366,7 +374,18 @@ const purchaseBoost = async (req, res) => {
     user.boosts.push(userBoost);
     await user.save();
   }
-  return res.status(StatusCodes.OK).json({success: true, boost: userBoost, msg: 'Purchase boost successfully!'});
+  res.status(StatusCodes.OK).json({success: true, boost: userBoost, msg: 'Purchase boost successfully!'});
+
+  const history = new History({
+    user: user._id,
+    boostItem: boostItem._id,
+    quantity,
+    hash: result.hash,
+    from: result.from,
+    to: result.to,
+    amount: result.amount
+  });
+  history.save();
 }
 
 const getAllBoost = async (req, res) => {
