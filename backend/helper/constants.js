@@ -18,7 +18,7 @@ const TELEGRAM = {
 
 const LEADERBOARD_SHOW_USER_COUNT = 500;
 
-const VERIFY_TRANSACTION_ON_MAINNET = false;
+const VERIFY_TRANSACTION_ON_MAINNET = true;
 const OWNER_ADDRESS = 'UQADlThF2_zCkpo_MYhO7IXUeO31ooNLB_A_SMcZHdAKf5qk';
 
 module.exports = {
