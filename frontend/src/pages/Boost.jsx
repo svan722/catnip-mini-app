@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
-import { useInitData } from '@telegram-apps/sdk-react';
-import { useTonWallet, useTonConnectUI, CHAIN, useTonAddress } from '@tonconnect/ui-react';
+import { useInitData, useInvoice } from '@telegram-apps/sdk-react';
+// import { useTonWallet, useTonConnectUI, CHAIN, useTonAddress } from '@tonconnect/ui-react';
 import { toast } from 'react-toastify';
 import API from '@/libs/api';
 import Countdown from 'react-countdown';
-import { OWNER_ADDRESS, IS_MAINNET } from "@/libs/constants";
+// import { OWNER_ADDRESS, IS_MAINNET } from "@/libs/constants";
 
 export default function Boost() {
     const { user } = useInitData();
+    const invoice = useInvoice();
 
-    const wallet = useTonWallet();
-    const tonAddress = useTonAddress(true);
-    const [tonConnectUI, ] = useTonConnectUI();
+    // const wallet = useTonWallet();
+    // const tonAddress = useTonAddress(true);
+    // const [tonConnectUI, ] = useTonConnectUI();
 
     const [items, setItems] = useState();
     const [totalPrice, setTotalPrice] = useState({usersCount: 0, price: 0});
@@ -19,14 +20,14 @@ export default function Boost() {
     const [endTime, setEndTime] = useState(0);
 
     useEffect(() => {
-        API.get('/users/boost/getall').then(res => {
+        API.get('/play/boost/getall').then(res => {
                 setItems(res.data.boosts);
             }).catch(err => {
                 toast.error('Something went wrong.');
                 setItems([]);
                 console.error(err);
             });
-        API.get('/users/boost/getmy/' + user.id).then(res => {
+        API.get('/play/boost/getmy/' + user.id).then(res => {
                 if (res.data.success) {
                     setPurchasedItem(res.data.boost.item);
                     setEndTime(res.data.boost.endTime);
@@ -40,47 +41,66 @@ export default function Boost() {
             });
     }, []);
 
-    useEffect(() => {
-        if (!wallet) return;
-        if (tonConnectUI.wallet.account.chain !== CHAIN.MAINNET) {
-            console.log("You're not in mainnet.");
-        }
-    }, [wallet]);
+    // useEffect(() => {
+    //     if (!wallet) return;
+    //     if (tonConnectUI.wallet.account.chain !== CHAIN.MAINNET) {
+    //         console.log("You're not in mainnet.");
+    //     }
+    // }, [wallet]);
 
-    const handleConnectWallet = () => {
-        if (wallet) tonConnectUI.disconnect();
-        else tonConnectUI.openModal();
-    }
+    // const handleConnectWallet = () => {
+    //     if (wallet) tonConnectUI.disconnect();
+    //     else tonConnectUI.openModal();
+    // }
+
+    // const handlePayment = (item) => {
+    //     if (!wallet) return toast.error("Connect your wallet to send transaction.");
+    //     const amount = (item.price * Math.pow(10, 9)).toString();
+    //     tonConnectUI.sendTransaction({
+    //             validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
+    //             network: IS_MAINNET ? CHAIN.MAINNET : CHAIN.TESTNET,
+    //             messages: [
+    //                 {
+    //                     address: OWNER_ADDRESS,
+    //                     amount: amount,
+    //                 }
+    //             ]
+    //         }).then(res => {
+    //             console.log('Transaction success:', res);
+    //             return API.post('users/boost/purchase', { userid: user.id, boostid: item._id, tx: res });
+    //         }).then(res => {
+    //             if (res.data.success) {
+    //                 toast.success(res.data.msg);
+    //                 setPurchasedItem(items?.find(i => i._id === item._id));
+    //                 setEndTime(res.data.boost.endTime);
+    //                 setTotalUser(prev => prev + 1);
+    //                 setTotalPrice(prev => prev + res.data.boost.item.price);
+    //             } else {
+    //                 toast.error(res.data.msg);
+    //             }
+    //         }).catch(err => {
+    //             toast.error('Something went wrong.');
+    //             console.error(err);
+    //         });
+    // }
 
     const handlePayment = (item) => {
-        if (!wallet) return toast.error("Connect your wallet to send transaction.");
-        const amount = (item.price * Math.pow(10, 9)).toString();
-        tonConnectUI.sendTransaction({
-                validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
-                network: IS_MAINNET ? CHAIN.MAINNET : CHAIN.TESTNET,
-                messages: [
-                    {
-                        address: OWNER_ADDRESS,
-                        amount: amount,
-                    }
-                ]
-            }).then(res => {
-                console.log('Transaction success:', res);
-                return API.post('users/boost/purchase', { userid: user.id, boostid: item._id, tx: res });
-            }).then(res => {
-                if (res.data.success) {
-                    toast.success(res.data.msg);
-                    setPurchasedItem(items?.find(i => i._id === item._id));
-                    setEndTime(res.data.boost.endTime);
-                    setTotalUser(prev => prev + 1);
-                    setTotalPrice(prev => prev + res.data.boost.item.price);
-                } else {
-                    toast.error(res.data.msg);
-                }
-            }).catch(err => {
-                toast.error('Something went wrong.');
-                console.error(err);
+        API.post('/play/invoice', { userid: user.id, id: item._id })
+        .then(res => {
+            console.log(res.data);
+            invoice.open(res.data.link, 'url').then(invoiceRes => {
+                console.log("invoice res=", invoiceRes);
+                setPurchasedItem(item);
+                setEndTime(Date.now() + item.period * 24 * 60 * 60 * 1000);
+                setTotalPrice(prev => ({
+                    usersCount: prev.usersCount + 1,
+                    price: prev.price + item.price
+                }));
             });
+        }).catch(err => {
+            console.error(err);
+            toast.error(err.message);
+        });
     }
     
     return (
@@ -91,8 +111,8 @@ export default function Boost() {
             </div>
             <p className="font-poppins text-center text-black text-[10px] leading-[15px]">Make our tasks to get more coins </p>
             <div className="flex justify-between items-center mt-[20px]">
-                <button onClick={handleConnectWallet} className="px-[10px] h-[45px] rounded-[5px] bg-primary text-white font-poppins text-[12px] font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_5px_5px_#333333]">{ wallet ? tonAddress?.slice(0, 5) + '...' + tonAddress?.slice(-5) : 'Connect Wallet' }</button>
-                <div className="text-[14px] text-black font-rubik font-medium leading-none">Total <span className="text-primary">{ totalPrice.price.toLocaleString() }</span> TON <span className="text-primary">{ totalPrice.usersCount.toLocaleString() }</span> Users</div>
+                {/* <button onClick={handleConnectWallet} className="px-[10px] h-[45px] rounded-[5px] bg-primary text-white font-poppins text-[12px] font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_5px_5px_#333333]">{ wallet ? tonAddress?.slice(0, 5) + '...' + tonAddress?.slice(-5) : 'Connect Wallet' }</button> */}
+                <div className="text-[14px] text-black font-rubik font-medium leading-none flex items-end">Total:&nbsp;<span className="text-primary">{ totalPrice.price.toLocaleString() }</span> <img className="w-4 h-4 ml-1 mr-3" src="/imgs/star.png" alt="" /> <span className="text-primary">{ totalPrice.usersCount.toLocaleString() }</span>&nbsp;Users</div>
             </div>
             <div className="mt-[27px] divide-y-[1px]">
                 {
@@ -118,7 +138,10 @@ export default function Boost() {
                                 <button disabled={true} onClick={() => handlePayment(item)} className="w-[85px] h-[31px] rounded-[4px] bg-white disabled:bg-primary disabled:hover:cursor-not-allowed disabled:text-white hover:bg-primary text-[#EA5384] hover:text-white font-poppins text-[10px] transition-colors duration-300">
                                     { purchasedItem._id === item._id ? <Countdown date={endTime} intervalDelay={1000} precision={3} onComplete={() => setPurchasedItem(null)} renderer={(props) => <span>{props.days ? props.days.toString() + 'd' : ''} {props.hours.toString()} : {props.minutes.toString().padStart(2, '0')} : {props.seconds.toString().padStart(2, '0')}</span>} /> : '---' }
                                 </button> :
-                                <button onClick={() => handlePayment(item)} className="w-[85px] h-[31px] rounded-[4px] bg-white disabled:bg-primary disabled:hover:cursor-not-allowed disabled:text-white hover:bg-primary text-[#EA5384] hover:text-white font-poppins text-[10px] transition-colors duration-300">{ item.price } Ton</button>
+                                <button onClick={() => handlePayment(item)} className="w-[85px] flex items-center justify-center gap-2 h-[31px] rounded-[4px] bg-black/10 disabled:bg-primary disabled:hover:cursor-not-allowed disabled:text-white hover:bg-primary text-[#EA5384] hover:text-white font-poppins text-[10px] transition-colors duration-300">
+                                    <img className="w-3 h-3" alt="" src="/imgs/star.png" />
+                                    <span className="mt-[3px] font-bold leading-none">{ item.price }</span>
+                                </button>
                             }
                         </div>
                     ) : Array(3).fill(0).map((_, key) => 

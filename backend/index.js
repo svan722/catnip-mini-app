@@ -9,12 +9,14 @@ const connectDB = require('./db/connect');
 
 //  routers
 const authRouter = require('./routes/authRoutes');
+const playRouter = require('./routes/playRoutes');
 const userRouter = require('./routes/userRoutes');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/play', playRouter);
 app.use('/api/v1/users', userRouter);
 
 app.use(express.static('../frontend/dist'));

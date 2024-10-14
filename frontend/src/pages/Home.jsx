@@ -38,7 +38,7 @@ export default function Home() {
             setLoseEnergyPerTap(res.data.loseEnergyPerTap);
         }).catch(console.error);
 
-        API.get('/users/boost/getmy/' + user.id).then(res => {
+        API.get('/play/boost/getmy/' + user.id).then(res => {
             res.data.success && setEndTime(res.data.boost.endTime);
         }).catch(console.error);
     }, [user])
