@@ -173,7 +173,7 @@ const botStart = async () => {
     gameBot.command("refund", (ctx) => {
         const userId = ctx.from.id;
         ctx.api
-            .refundStarPayment(userId, 'stxfLE17s-m73-wslZCW1YvMJhbjSbkVcMsNKmRHSpBwCmv-Kn8rqfZDgTL-TyNJMI_TeeuOuQ30-9DdF0PqRvvraVF3-4vfMdmaAtEmxcwRsSuPT2aq8RgD141Cl78fmoM')
+            .refundStarPayment(userId, 'stxUa_dBRey-Wxa4SEc9pYRzxy3yDULU6BdKCDGGiWn1Q4uZTTT35OHmavEy9LOsb9GL4yAtvihk96NC_Ib-Loj6JiBiIrEuOtFhUm_c8qMZHZujxT37SyfBTwvSV92PIxg')
             .then(() => {
                 return ctx.reply("Refund successful");
             })

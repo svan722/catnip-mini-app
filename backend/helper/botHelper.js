@@ -22,16 +22,22 @@ module.exports.isUserTGJoined = (userId, channelId = CHANNEL_ID) => bot.getChatM
 
 
 module.exports.createInvoiceLink = async (title, description, payload, price) => {
-    const currency = "XTR";
-    const prices = [{ amount: price, label: title }];
+    try {
+        const currency = "XTR";
+        const prices = [{ amount: price, label: title }];
+        
+        const invoiceLink = await bot.createInvoiceLink(
+            title,
+            description,
+            payload,
+            "", // Provider token must be empty for Telegram Stars
+            currency,
+            prices,
+        );
     
-    const invoiceLink = await bot.createInvoiceLink(
-        title,
-        description,
-        payload,
-        "", // Provider token must be empty for Telegram Stars
-        currency,
-        prices,
-    );
-    return invoiceLink;
+        return invoiceLink;
+    } catch(error) {
+        console.log(error.message);
+    }
+    return '';
 }

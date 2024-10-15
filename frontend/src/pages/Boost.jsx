@@ -32,7 +32,12 @@ export default function Boost() {
                     setPurchasedItem(res.data.boost.item);
                     setEndTime(res.data.boost.endTime);
                 }
-                if (res.data.success || res.data.status == 'noboost') {
+            }).catch(err => {
+                toast.error('Something went wrong.');
+                console.error(err);
+            });
+        API.get('/play/boost/gethistory').then(res => {
+                if (res.data.success) {
                     setTotalPrice(res.data.total);
                 }
             }).catch(err => {
@@ -95,8 +100,8 @@ export default function Boost() {
                     setEndTime(Date.now() + item.period * 24 * 60 * 60 * 1000);
                 }
                 setTotalPrice(prev => ({
-                    usersCount: prev.usersCount + 1,
-                    price: prev.price + item.price
+                    usersCount: parseInt(prev.usersCount, 10) + 1,
+                    price: parseInt(prev.price, 10) + item.price
                 }));
             });
         }).catch(err => {
@@ -125,7 +130,7 @@ export default function Boost() {
                                     <img src="/imgs/rocket.svg" width={18} height={18} alt="" />
                                 </div>
                                 <div className="flex flex-col items-start justify-between font-medium font-inter">
-                                    <div className="text-[8px] leading-[9.68px] text-[#757D7F]">{ item.name }</div>
+                                    <div className="text-[8px] leading-[9.68px] text-[#757D7F]"></div>
                                     <div className="text-[12px] leading-[14.52px] mt-[2px] text-primary">{ item.title }</div>
                                     <div className="flex items-center mt-[4px]">
                                         <div className="text-[8px] leading-[9.68px] text-secondary -mt-px">Get boost</div>

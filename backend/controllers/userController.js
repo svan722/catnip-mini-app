@@ -7,6 +7,7 @@ const User = require('../models/User');
 const Follow = require('../models/Follow');
 const BoostItem = require('../models/BoostItem');
 const History = require('../models/BoostPurchaseHistory');
+const ReferralLink = require('../models/ReferralLink');
 
 const logger = require('../helper/logger');
 const { BONUS, TELEGRAM, LEADERBOARD_SHOW_USER_COUNT } = require('../helper/constants');
@@ -37,183 +38,77 @@ const getAllUserCount = async (req, res) => {
   res.status(StatusCodes.OK).json({count: userCount});
 };
 
-const connectWallet = async (req, res) => {
-  const { userid } = req.body;
-  var user = await User.findOne({ userid });
-  if(user) {
-    if(user.walletConnected) {
-      return res.status(StatusCodes.OK).json({success: false, status: 'exist', msg: 'Already received!'});
-    }
-    user.walletConnected = true;
-    const bonus = BONUS.WALLET_CONNECT;
-    user.addOnion(bonus);
 
-    await user.save();
-    return res.status(StatusCodes.OK).json({success: true, status: 'success', msg: 'Received wallet connect bonus', onion: user.onion, bonus: bonus});
+// task part
+const checkTask = async (req, res) => {
+  const { userid, linkid, payload } = req.body;
+
+  var user = await User.findOne({ userid }).populate('referrals.item');
+  if(!user) {
+    return res.status(StatusCodes.OK).json({success: false, status: 'nouser', msg: 'There is no userid!'});
   }
-  return res.status(StatusCodes.OK).json({success: false, status: 'nouser', msg: 'There is no userid!'});
-}
 
-const joinTelegram = async (req, res) => {
-  const { userid, type } = req.body;
-  var user = await User.findOne({ userid });
-  if(user) {
-    const isDBTGJoined = type == 'channel' ? user.telegramChannelJoined : user.telegramGroupJoined;
-    if(isDBTGJoined) {
-      return res.status(StatusCodes.OK).json({success: false, status: 'exist', msg: 'already received!'});
-    }
-    const isTGJoined = await isUserTGJoined(userid, type == 'channel' ? TELEGRAM.CHANNEL_ID : TELEGRAM.GROUP_ID);
+  const exists = user.referrals.some(ref => (ref.item.linkid == linkid && ref.finished == true));
+  if(exists) {
+    return res.status(StatusCodes.OK).json({success: false, status: 'exist', msg: 'Already received!'});
+  }
+
+  var follow = await Follow.findOne({ userid, referralid:linkid });
+  if(!follow) {
+    return res.status(StatusCodes.OK).json({success: false, status: 'nofollow', msg: 'Not completed yet!'});
+  }
+
+  var referral = await ReferralLink.findOne({ linkid });
+  if(!referral) {
+    return res.status(StatusCodes.OK).json({success: false, status: 'noreferral', msg: 'There is no referral link!'});
+  }
+
+  if(referral.type == "own_tg_channel" || referral.type == "own_tg_group" || referral.type == "partner_tg_channel") {
+    const isTGJoined = await isUserTGJoined(userid, referral.chatid);
     if(!isTGJoined) {
-      return res.status(StatusCodes.OK).json({success: false, status: 'notyet', msg: `not joined telegram ${type} yet!`});
+      return res.status(StatusCodes.OK).json({success: false, status: 'notjoin', msg: `not joined telegram yet!`});
     }
-    var bonus = 0;
-    if(type == 'channel') {
-      bonus = BONUS.JOIN_TG_CHANNEL;
-      user.telegramChannelJoined = true;
-    } else {
-      bonus = BONUS.JOIN_TG_GROUP;
-      user.telegramGroupJoined = true;
-    }
-    user.addOnion(bonus);
-
-    await user.save();
-    return res.status(StatusCodes.OK).json({success: true, status: 'success', msg: 'received telegram joined bonus', onion: user.onion, bonus: bonus});
+  } else if(referral.type == "wallet_connect") {
+    follow.payload = payload;
+    await follow.save();
+  } else if(referral.type == "social") {
+    follow.payload = payload;
+    await follow.save();
   }
-  return res.status(StatusCodes.OK).json({success: false, status: 'nouser', msg: 'there is no userid!'});
-};
-const followX = async (req, res) => {
-  const { userid, username } = req.body;
-  if(!username || username == '') {
-    return res.status(StatusCodes.OK).json({success: false, status: 'nousername', msg: 'Please input username!'});
-  }
-  var user = await User.findOne({ userid });
-  if(!user) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'nouser', msg: 'There is no userid!'});
-  }
-
-  if(user.xFollowed) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'exist', msg: 'Already received!'});
-  }
-
-  var follow = await Follow.findOne({ userid, platform: 'X'  });
-  if(!follow) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'nofollow', msg: 'Not follow yet!'});
-  }
-  follow.username = username;
-  await follow.save();
-
-  user.xFollowed = true;
-  user.addOnion(BONUS.FOLLOW_X_ACCOUNT);
-
+  
+  user.referrals.push({
+    item: referral,
+    finished: true,
+  });
+  user.addOnion(referral.bonus);
   await user.save();
-  return res.status(StatusCodes.OK).json({success: true, status: 'success', msg: 'Received follow X bonus', onion: user.onion, bonus: BONUS.FOLLOW_X_ACCOUNT});
-};
+  return res.status(StatusCodes.OK).json({success: true, status: 'success', msg: referral.completedMsg, onion: user.onion, bonus: referral.bonus});
+}
+const doTask = async (req, res) => {
+  const { userid, linkid } = req.body;
 
-const retweet = async (req, res) => {
-  const { userid, username } = req.body;
-
-  if(!username || username == '') {
-    return res.status(StatusCodes.OK).json({success: false, status: 'nousername', msg: 'Please input username!'});
-  }
-
-  var user = await User.findOne({ userid });
-  if(!user) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'nouser', msg: 'There is no userid!'});
-  }
-  if(user.xTweet) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'exist', msg: 'Already received!'});
-  }
-
-  var follow = await Follow.findOne({ userid, platform: 'Tweet' });
-  if(!follow) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'nofollow', msg: 'Not tweet @Onion yet!'});
-  }
-  follow.username = username;
-  await follow.save();
-
-  user.xTweet = true;
-  user.addOnion(BONUS.RETWEET_POST);
-
-  await user.save();
-  return res.status(StatusCodes.OK).json({success: true, status: 'success', msg: 'received visit website bonus', onion: user.onion, bonus: BONUS.RETWEET_POST});
-};
-
-const subscribe_youtube = async (req, res) => {
-  const { userid, username } = req.body;
-
-  if(!username || username == '') {
-    return res.status(StatusCodes.OK).json({success: false, status: 'nousername', msg: 'Please input username!'});
-  }
-
-  var user = await User.findOne({ userid });
-  if(!user) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'nouser', msg: 'There is no userid!'});
-  }
-
-  if(user.youtubeSubscribed) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'exist', msg: 'Already received!'});
-  }
-
-  var follow = await Follow.findOne({ userid, platform: 'YouTube' });
-  if(!follow) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'nofollow', msg: 'Not subscribe yet!'});
-  }
-  follow.username = username;
-  await follow.save();
-
-  user.youtubeSubscribed = true;
-  user.addOnion(BONUS.SUBSCRIBE_YOUTUBE);
-
-  await user.save();
-  return res.status(StatusCodes.OK).json({success: true, status: 'success', msg: 'received subscribe youtube bonus', onion: user.onion, bonus: BONUS.SUBSCRIBE_YOUTUBE});
-};
-
-const visit_website = async (req, res) => {
-  const { userid } = req.body;
-  const username = "test";
-
-  if(!username || username == '') {
-    return res.status(StatusCodes.OK).json({success: false, status: 'nousername', msg: 'Please input username!'});
-  }
-
-  var user = await User.findOne({ userid });
-  if(!user) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'nouser', msg: 'There is no userid!'});
-  }
-  if(user.visitWebSite) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'exist', msg: 'Already received!'});
-  }
-
-  var follow = await Follow.findOne({ userid, platform: 'Site' });
-  if(!follow) {
-    follow = await Follow.create({
-      userid,
-      platform: 'Site'
-    });
-  }
-  follow.username = username;
-  await follow.save();
-
-  user.visitWebSite = true;
-  user.addOnion(BONUS.VISIT_WEBSITE);
-
-  await user.save();
-  return res.status(StatusCodes.OK).json({success: true, status: 'success', msg: 'Received visit website bonus', onion: user.onion, bonus: BONUS.VISIT_WEBSITE});
-};
-
-const follow_task_do = async (req, res) => {
-  const { userid, platform } = req.body;
-
-  var follow = await Follow.findOne({ userid, platform });
+  var follow = await Follow.findOne({ userid, referralid: linkid });
   if(follow) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'exist', msg: 'Already followed!'});
+    return res.status(StatusCodes.OK).json({success: false, status: 'exist', msg: 'Already added!'});
   }
   follow = await Follow.create({
     userid,
-    platform
+    referralid: linkid
   });
-  return res.status(StatusCodes.OK).json({success: true, status: 'success', msg: 'Follow success!'});
+  return res.status(StatusCodes.OK).json({success: true});
 };
+const getAllTaskList = async (req, res) => {
+  const referrals = await ReferralLink.find({ visible: true });
+  return res.status(StatusCodes.OK).json({ referrals });
+}
+const getMyTaskList = async (req, res) => {
+  const { userid } = req.params;
+  var user = await User.findOne({ userid }).populate('referrals.item');
+  if(!user) {
+    return res.status(StatusCodes.OK).json({success: false, status: 'nouser', msg: 'There is no userid!'});
+  }
+  return res.status(StatusCodes.OK).json({ myReferrals: user.referrals });
+}
 
 const getAvatarImage = (req, res) => {
   const { userid } = req.params;
@@ -331,151 +226,20 @@ const growUp = async (req,res) => {
   return res.status(StatusCodes.OK).json({success: true, energy: user.energy});
 }
 
-const purchaseBoost = async (req, res) => {
-  const { userid, boostid, tx } = req.body;
-  const quantity = 1;
-  const user = await User.findOne({ userid });
-  if(!user) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'nouser', msg: 'Not found user!'});
-  }
-  const currentTime = new Date();
-  for (const boost of user.boosts) {
-    if (currentTime < boost.endTime) {
-      return res.status(StatusCodes.OK).json({success: false, status: 'exist', msg: 'You already buy boost item!'});
-    }
-  }
-  const boostItem = await BoostItem.findById(boostid);
-  if(!boostItem) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'noboostitem', msg: 'Not found boost item!'});
-  }
-
-  const result = await verifyTransaction(tx, boostItem.price);
-  console.log('Verify result:', result);
-  if (!result.success) return res.status(StatusCodes.OK).json(result);
-
-  var userBoost = null;
-  switch (boostItem.type) {
-    case 'one-time':
-      userBoost = { item: boostItem._id };
-      break;
-    case 'many-time':
-      userBoost = { item: boostItem._id, remainingUses: boostItem.maxUses };
-      break;
-    case 'forever':
-      userBoost = { item: boostItem._id };
-      break;
-    case 'period':
-      const currentTime = new Date();
-      const endTime = new Date(currentTime.getTime() + boostItem.period * 24 * 60 * 60 * 1000);
-      userBoost = { item: boostItem._id, endTime };
-      break;
-  }
-  if(userBoost) {
-    user.boosts.push(userBoost);
-    await user.save();
-  }
-  res.status(StatusCodes.OK).json({success: true, boost: userBoost, msg: 'Purchase boost successfully!'});
-
-  const history = new History({
-    user: user._id,
-    boostItem: boostItem._id,
-    quantity,
-    hash: result.hash,
-    from: result.from,
-    to: result.to,
-    amount: result.amount
-  });
-  history.save();
-}
-
-const getAllBoost = async (req, res) => {
-  const boosts = await BoostItem.find({});
-  return res.status(StatusCodes.OK).json({boosts});
-}
-
-const addBoost = async (req, res) => {
-  const { userid, name, title, period, price } = req.body;
-  const boostItem = await BoostItem.findOne({name});
-  if(boostItem) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'exist', msg: 'Boost name already exist!'});
-  }
-  await BoostItem.create({
-    name,
-    title,
-    period,
-    price
-  });
-  return res.status(StatusCodes.OK).json({status: true, msg: 'Boost add success!'});
-}
-
-const getMyBoost = async (req, res) => {
-  const { userid } = req.params;
-  const user = await User.findOne({ userid }).populate('boosts.item');
-  if(!user) {
-    return res.status(StatusCodes.OK).json({success: false, status: 'nouser', msg: 'Not found user!'});
-  }
-
-  const result = await User.aggregate([
-    { $match: { 'boosts.item': { $ne: null } } }, // Filter users with boosts
-    { $unwind: '$boosts' }, // Deconstruct boosts array
-    {
-      $lookup: {
-        from: 'boostitems', // The collection name for BoostItem
-        localField: 'boosts.item',
-        foreignField: '_id',
-        as: 'boostDetails'
-      }
-    },
-    { $unwind: '$boostDetails' }, // Deconstruct boostDetails array
-    {
-      $group: {
-        _id: null,
-        totalUsers: { $addToSet: '$userid' }, // Unique user IDs
-        totalPrice: { $sum: '$boostDetails.price' } // Sum of prices
-      }
-    },
-    {
-      $project: {
-        totalUsersCount: { $size: '$totalUsers' },
-        totalBoostsPrice: '$totalPrice'
-      }
-    }
-  ]);
-  const total = {
-    usersCount: result.length > 0 ? result[0].totalUsersCount.toString() : 0,
-    price: result.length > 0 ? result[0].totalBoostsPrice.toString() : 0
-  }
-
-  const currentTime = new Date();
-  for (const boost of user.boosts) {
-    if (currentTime < boost.endTime) {
-      return res.status(StatusCodes.OK).json({success: true, boost, total});
-    }
-  }
-  return res.status(StatusCodes.OK).json({success: false, status: 'noboost', total, msg: 'You did not buy boost!'});
-}
 module.exports = {
   getUser,
   getAllFriends,
   getLeaderboard,
   getAllUserCount,
   
-  connectWallet,
-  joinTelegram,
-  followX,
-  retweet,
-  subscribe_youtube,
-  visit_website,
-  follow_task_do,
+  checkTask,
+  doTask,
+  getAllTaskList,
+  getMyTaskList,
 
   getAvatarImage,
 
   claimDailyReward,
   updateUserByTap,
   growUp,
-
-  purchaseBoost,
-  getAllBoost,
-  addBoost,
-  getMyBoost,
 };
