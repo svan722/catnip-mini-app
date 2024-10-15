@@ -123,7 +123,7 @@ export default function Boost() {
                                     <img src="/imgs/rocket.svg" width={18} height={18} alt="" />
                                 </div>
                                 <div className="flex flex-col items-start justify-between font-medium font-inter">
-                                    <div className="text-[8px] leading-[9.68px] text-[#757D7F]">{ item.name }</div>
+                                    <div className="text-[8px] leading-[9.68px] text-[#757D7F]"></div>
                                     <div className="text-[12px] leading-[14.52px] mt-[2px] text-primary">{ item.title }</div>
                                     <div className="flex items-center mt-[4px]">
                                         <div className="text-[8px] leading-[9.68px] text-secondary -mt-px">Get boost</div>
