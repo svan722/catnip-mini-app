@@ -37,12 +37,21 @@ const AuthProvider = ({ children }) => {
             src: ['/mp3/background.mp3'],
             autoplay: true,
             loop: true,
-            volume: 1
+            volume: 1,
+            preload: true
         });
 
         audio.play();
 
-        return () => audio.unload();
+        const handleVisibilityChange = () => {
+            Howler.mute(document.hidden);
+        };
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+            audio.unload();
+        }
     }, [])
 
     return (
