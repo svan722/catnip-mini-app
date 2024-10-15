@@ -4,11 +4,10 @@ const path = require('path');
 const { StatusCodes } = require('http-status-codes');
 
 const User = require('../models/User');
-const Follow = require('../models/Follow');
 const BoostItem = require('../models/BoostItem');
+const BoostPurchaseHistory = require('../models/BoostPurchaseHistory');
 
 const logger = require('../helper/logger');
-const { BONUS, TELEGRAM, LEADERBOARD_SHOW_USER_COUNT } = require('../helper/constants');
 const { createInvoiceLink } = require('../helper/botHelper');
 
 const startGame = async (req, res) => {
@@ -107,44 +106,13 @@ const getMyBoost = async (req, res) => {
     return res.status(StatusCodes.OK).json({success: false, status: 'nouser', msg: 'Not found user!'});
   }
 
-  const result = await User.aggregate([
-    { $match: { 'boosts.item': { $ne: null } } }, // Filter users with boosts
-    { $unwind: '$boosts' }, // Deconstruct boosts array
-    {
-      $lookup: {
-        from: 'boostitems', // The collection name for BoostItem
-        localField: 'boosts.item',
-        foreignField: '_id',
-        as: 'boostDetails'
-      }
-    },
-    { $unwind: '$boostDetails' }, // Deconstruct boostDetails array
-    {
-      $group: {
-        _id: null,
-        totalUsers: { $addToSet: '$userid' }, // Unique user IDs
-        totalPrice: { $sum: '$boostDetails.price' } // Sum of prices
-      }
-    },
-    {
-      $project: {
-        totalUsersCount: { $size: '$totalUsers' },
-        totalBoostsPrice: '$totalPrice'
-      }
-    }
-  ]);
-  const total = {
-    usersCount: result.length > 0 ? result[0].totalUsersCount.toString() : 0,
-    price: result.length > 0 ? result[0].totalBoostsPrice.toString() : 0
-  }
-
   const currentTime = new Date();
   for (const boost of user.boosts) {
     if (currentTime < boost.endTime) {
-      return res.status(StatusCodes.OK).json({success: true, boost, total});
+      return res.status(StatusCodes.OK).json({success: true, boost});
     }
   }
-  return res.status(StatusCodes.OK).json({success: false, status: 'noboost', total, msg: 'You did not buy boost!'});
+  return res.status(StatusCodes.OK).json({success: false, status: 'noboost', msg: 'You did not buy boost!'});
 }
 const getTotalBoostHistory = async (req, res) => {
   const result = await BoostPurchaseHistory.aggregate([
@@ -174,7 +142,11 @@ const getTotalBoostHistory = async (req, res) => {
       },
     },
   ]);
-  return res.status(StatusCodes.OK).json({success: true, result});
+  const total = {
+    usersCount: result.length > 0 ? result[0].totalUniqueUsers.toString() : 0,
+    price: result.length > 0 ? result[0].totalPrice.toString() : 0
+  }
+  return res.status(StatusCodes.OK).json({success: true, total});
 }
 //star invoice
 const generateInvoice = async(req, res) => {

@@ -32,7 +32,12 @@ export default function Boost() {
                     setPurchasedItem(res.data.boost.item);
                     setEndTime(res.data.boost.endTime);
                 }
-                if (res.data.success || res.data.status == 'noboost') {
+            }).catch(err => {
+                toast.error('Something went wrong.');
+                console.error(err);
+            });
+        API.get('/play/boost/gethistory').then(res => {
+                if (res.data.success) {
                     setTotalPrice(res.data.total);
                 }
             }).catch(err => {
