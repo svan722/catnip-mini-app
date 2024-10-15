@@ -98,8 +98,8 @@ export default function Boost() {
                 setPurchasedItem(item);
                 setEndTime(Date.now() + item.period * 24 * 60 * 60 * 1000);
                 setTotalPrice(prev => ({
-                    usersCount: prev.usersCount + 1,
-                    price: prev.price + item.price
+                    usersCount: parseInt(prev.usersCount, 10) + 1,
+                    price: parseInt(prev.price, 10) + item.price
                 }));
             });
         }).catch(err => {
