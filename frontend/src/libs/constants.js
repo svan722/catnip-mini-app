@@ -5,12 +5,12 @@ export const MINER_STATUS = {
 
 export const LINK = {
     TELEGRAM_MINIAPP: 'https://t.me/supercool_catnip_bot',
-    TELEGRAM_GROUP: 'https://t.me/tonredonion_onon',
-    TELEGRAM_CHANNEL: 'https://t.me/CATNIP_ANNOUNCEMENT',
-    X: 'https://x.com/catnipsprint',
-    YOUTUBE: 'https://youtube.com/@Cointswap',
-    WEBSITE: 'https://coint.xyz/',
-    TWEET: 'https://x.com/catnipsprint/status/1843510913384755367?t=thZJpXgT8tB-j6Yr7KabYg&s=19',
+    // TELEGRAM_GROUP: 'https://t.me/tonredonion_onon',
+    // TELEGRAM_CHANNEL: 'https://t.me/CATNIP_ANNOUNCEMENT',
+    // X: 'https://x.com/catnipsprint',
+    // YOUTUBE: 'https://youtube.com/@test',
+    // WEBSITE: 'https://test.xyz/',
+    // TWEET: 'https://x.com/catnipsprint/status/1843510913384755367?t=thZJpXgT8tB-j6Yr7KabYg&s=19',
     MANIFEST: 'https://supercoolx.github.io/manifests/catnip-manifest.json',
 }
 
