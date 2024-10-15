@@ -90,8 +90,10 @@ export default function Boost() {
             console.log(res.data);
             invoice.open(res.data.link, 'url').then(invoiceRes => {
                 console.log("invoice res=", invoiceRes);
-                setPurchasedItem(item);
-                setEndTime(Date.now() + item.period * 24 * 60 * 60 * 1000);
+                if (invoiceRes === 'paid') {
+                    setPurchasedItem(item);
+                    setEndTime(Date.now() + item.period * 24 * 60 * 60 * 1000);
+                }
                 setTotalPrice(prev => ({
                     usersCount: prev.usersCount + 1,
                     price: prev.price + item.price
