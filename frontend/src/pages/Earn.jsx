@@ -81,11 +81,11 @@ export default function Earn() {
                 open();
                 myRefferalTaskDo(linkid);
             }
-        } else if(linkid == 'onion_tg_channel') {
+        } else if(linkid == 'catnip_tg_channel') {
             setOpenChannelModal(true);
-        } else if(linkid == 'onion_x_follow') {
+        } else if(linkid == 'catnip_x_follow') {
             setOpenFollowXModal(true);
-        } else if(linkid == 'onion_x_retweet') {
+        } else if(linkid == 'catnip_x_retweet') {
             setOpenRetweetXModal(true);
         }
     }
@@ -159,7 +159,7 @@ export default function Earn() {
     }
     const FollowXDialog = ({ isOpen, setOpen }) => {
         const [username, setUsername] = useState('');
-        const linkid = 'onion_x_follow';
+        const linkid = 'catnip_x_follow';
         const referral = referrals.find(ref => ref.linkid === linkid);
 
         const handleChangeUsername = (e) => {
@@ -197,7 +197,7 @@ export default function Earn() {
     }
     const RetweetXDialog = ({ isOpen, setOpen }) => {
         const [username, setUsername] = useState('');
-        const linkid = 'onion_x_retweet';
+        const linkid = 'catnip_x_retweet';
         const referral = referrals.find(ref => ref.linkid === linkid);
 
         const handleChangeUsername = (e) => {
@@ -220,7 +220,7 @@ export default function Earn() {
                 <div onClick={e => e.stopPropagation()} className="rounded-[34px] px-[23px] pt-4 border border-transparent [box-shadow:inset_0_0_4px_#000000aa] [background:linear-gradient(#a19a02,#2d2d0c)_padding-box,linear-gradient(#00000000,#ffffffff)_border-box] mx-auto">
                     <h1 className="mb-3 text-3xl font-bold text-center font-poppins">Retweet X (Twitter)</h1>
                     <div className="flex justify-center">
-                        <Link propsOnClick={() => myRefferalTaskDo(linkid)} className="mr-3 font-lily text-[20px] rounded-full py-[5px] pl-[25px] pr-[20px] border border-transparent [box-shadow:inset_0_0_4px_#000000aa] [background:linear-gradient(#0AFDD1,#03452FD6)_padding-box,linear-gradient(#FFFFFF,#99999900)_border-box] hover:-translate-y-1 transition-all duration-300">
+                        <Link propsOnClick={() => myRefferalTaskDo(linkid)} to={referral.url} className="mr-3 font-lily text-[20px] rounded-full py-[5px] pl-[25px] pr-[20px] border border-transparent [box-shadow:inset_0_0_4px_#000000aa] [background:linear-gradient(#0AFDD1,#03452FD6)_padding-box,linear-gradient(#FFFFFF,#99999900)_border-box] hover:-translate-y-1 transition-all duration-300">
                             <span className="shadow-text">Retweet</span>
                         </Link>
                     </div>
